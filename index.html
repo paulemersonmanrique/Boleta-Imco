@@ -121,6 +121,63 @@
             border-color: #ffb74d;
             font-weight: 700;
             color: #e65100;
+            max-width: 70px;
+            text-align: center;
+        }
+
+        /* ===== FILTROS DE QUINCENA ===== */
+        .filtros-quincena {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .filtros-quincena .btn-filtro {
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: 2px solid #b6d2e3;
+            cursor: pointer;
+            transition: 0.15s;
+            background: white;
+            color: #17445c;
+        }
+
+        .filtros-quincena .btn-filtro:hover {
+            background: #eef6fb;
+        }
+
+        .filtros-quincena .btn-filtro.activo {
+            background: #1b5e7c;
+            color: white;
+            border-color: #1b5e7c;
+            box-shadow: 0 4px 12px rgba(27, 94, 124, 0.3);
+        }
+
+        .filtros-quincena .btn-filtro.activo:hover {
+            background: #124b66;
+        }
+
+        .filtros-quincena .btn-filtro.primera {
+            border-color: #ffb74d;
+        }
+
+        .filtros-quincena .btn-filtro.primera.activo {
+            background: #ffb74d;
+            border-color: #ff9800;
+            color: #4a2800;
+        }
+
+        .filtros-quincena .btn-filtro.segunda {
+            border-color: #64b5f6;
+        }
+
+        .filtros-quincena .btn-filtro.segunda.activo {
+            background: #64b5f6;
+            border-color: #1e88e5;
+            color: #0d2b4a;
         }
 
         .seccion-dias {
@@ -151,8 +208,8 @@
 
         .dias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 6px;
         }
 
         .dia-item {
@@ -160,37 +217,56 @@
             flex-direction: column;
             gap: 2px;
             background: white;
-            padding: 5px 8px 8px 8px;
-            border-radius: 12px;
+            padding: 4px 4px 6px 4px;
+            border-radius: 10px;
             border: 1px solid #dbe8f2;
             position: relative;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .dia-item.oculto {
+            display: none;
         }
 
         .dia-item label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 600;
             color: #1f5a7a;
             display: flex;
             justify-content: space-between;
+            width: 100%;
+            padding: 0 2px;
         }
 
         .dia-item label .dia-num {
             background: #dce8f2;
-            padding: 0 6px;
+            padding: 0 5px;
             border-radius: 30px;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
         }
 
         .dia-item input[type="number"] {
-            padding: 4px 5px;
+            padding: 3px 2px;
             border: 2px solid #dce8f2;
-            border-radius: 8px;
-            font-size: 0.85rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             width: 100%;
+            max-width: 50px;
+            min-width: 38px;
             text-align: center;
             font-weight: 600;
             background: white;
             transition: 0.15s;
+            margin: 0 auto;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .dia-item input[type="number"]::-webkit-inner-spin-button,
+        .dia-item input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .dia-item input[type="number"]:focus {
@@ -233,19 +309,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
-            font-size: 0.6rem;
+            gap: 3px;
+            font-size: 0.55rem;
             color: #1f5a7a;
             margin-top: 2px;
             padding: 2px 0;
             background: #fff8e1;
             border-radius: 4px;
             border: 1px solid #ffe082;
+            width: 100%;
         }
 
         .dia-item .domingo-check input[type="checkbox"] {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             cursor: pointer;
             accent-color: #1b5e7c;
         }
@@ -255,7 +332,7 @@
         }
 
         .dia-item .domingo-check label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 600;
             color: #1a4055;
             cursor: pointer;
@@ -447,7 +524,26 @@
                 gap: 8px;
             }
             .dias-grid {
-                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+                gap: 4px;
+            }
+            .dia-item input[type="number"] {
+                max-width: 42px;
+                min-width: 32px;
+                font-size: 0.7rem;
+            }
+            .dia-item {
+                padding: 3px 3px 4px 3px;
+            }
+            .dia-item label {
+                font-size: 0.5rem;
+            }
+            .dia-item .domingo-check {
+                font-size: 0.5rem;
+            }
+            .dia-item .domingo-check input[type="checkbox"] {
+                width: 10px;
+                height: 10px;
             }
             .btn {
                 flex: 1 1 100%;
@@ -459,6 +555,15 @@
             }
             .header .empresa {
                 text-align: left;
+            }
+            .filtros-quincena .btn-filtro {
+                flex: 1 1 auto;
+                text-align: center;
+                font-size: 0.7rem;
+                padding: 4px 12px;
+            }
+            .campo input.acumulado {
+                max-width: 60px;
             }
         }
     </style>
@@ -542,11 +647,11 @@
         </div>
     </div>
 
-    <!-- CAMPO DE HORAS ACUMULADAS DE QUINCENA ANTERIOR -->
+    <!-- CAMPO DE HORAS ACUMULADAS DE QUINCENA ANTERIOR (3 DÍGITOS) -->
     <div class="grid-3" style="background:#fff8e1; border-radius:12px; padding:12px 16px; border:2px solid #ffb74d; margin-bottom:16px;">
         <div class="campo">
             <label>📦 Horas Extras Acumuladas (Quincena Anterior) <span class="info">(días 14 y 15)</span></label>
-            <input type="number" id="horasAcumuladasQuincena" value="12" step="0.5" min="0" class="acumulado">
+            <input type="number" id="horasAcumuladasQuincena" value="12" step="0.5" min="0" class="acumulado" style="max-width:70px; text-align:center;">
         </div>
         <div class="campo" style="justify-content:flex-end;">
             <label style="color:#e65100; font-weight:700;">⏳ Estas horas se suman al cálculo actual</label>
@@ -558,8 +663,8 @@
 
     <!-- Leyenda -->
     <div class="leyenda">
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Domingo (1ra Quincena)</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Domingo (2da Quincena)</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Domingo (1ra Q.)</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Domingo (2da Q.)</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#ffebee;border-color:#ef5350;"></span> Feriado Nacional</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#f3e5f5;border-color:#ab47bc;"></span> Feriado Arequipa</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#f0f7ff;border-color:#90caf9;"></span> 2da Quincena</span>
@@ -567,12 +672,17 @@
         <span class="leyenda-item"><span class="leyenda-color" style="background:#fff8e1;border-color:#e65100;"></span> Horas Acumuladas</span>
     </div>
 
+    <!-- FILTROS DE QUINCENA -->
+    <div class="filtros-quincena">
+        <button class="btn-filtro activo" data-filtro="ambas" id="filtroAmbas">📅 Ambas quincenas</button>
+        <button class="btn-filtro primera" data-filtro="primera" id="filtroPrimera">📅 1ra Quincena (1-15)</button>
+        <button class="btn-filtro segunda" data-filtro="segunda" id="filtroSegunda">📅 2da Quincena (16-31)</button>
+    </div>
+
     <!-- Registro de horas día a día -->
     <div class="seccion-dias">
         <h3>
             🕒 Horas trabajadas - <span id="tituloMes">Julio 2026</span>
-            <span class="quincena-tag">1ra Quincena (1-15)</span>
-            <span class="quincena-tag" style="background:#2e7d5e;">2da Quincena (16-31)</span>
         </h3>
         <div class="dias-grid" id="diasGrid">
             <!-- Se genera con JS -->
@@ -717,10 +827,16 @@
         const senatiResult = document.getElementById('senatiResult');
         const netoResult = document.getElementById('netoResult');
 
+        // Referencias de filtros
+        const filtroAmbas = document.getElementById('filtroAmbas');
+        const filtroPrimera = document.getElementById('filtroPrimera');
+        const filtroSegunda = document.getElementById('filtroSegunda');
+
         let mesActual = 6;
         let anioActual = 2026;
         let diasEnMes = 31;
         let primerDiaSemana = 3;
+        let filtroActual = 'ambas';
 
         function getDiasEnMes(mes, anio) {
             return new Date(anio, mes + 1, 0).getDate();
@@ -746,6 +862,37 @@
             return fecha.getDay() === 0;
         }
 
+        // ===== APLICAR FILTRO =====
+        function aplicarFiltro(filtro) {
+            filtroActual = filtro;
+
+            [filtroAmbas, filtroPrimera, filtroSegunda].forEach(btn => btn.classList.remove('activo'));
+            if (filtro === 'ambas') filtroAmbas.classList.add('activo');
+            else if (filtro === 'primera') filtroPrimera.classList.add('activo');
+            else if (filtro === 'segunda') filtroSegunda.classList.add('activo');
+
+            const items = document.querySelectorAll('.dia-item');
+            items.forEach((item, index) => {
+                const dia = index + 1;
+                if (filtro === 'ambas') {
+                    item.classList.remove('oculto');
+                } else if (filtro === 'primera') {
+                    if (dia <= 15) {
+                        item.classList.remove('oculto');
+                    } else {
+                        item.classList.add('oculto');
+                    }
+                } else if (filtro === 'segunda') {
+                    if (dia >= 16) {
+                        item.classList.remove('oculto');
+                    } else {
+                        item.classList.add('oculto');
+                    }
+                }
+            });
+        }
+
+        // ===== GENERAR DÍAS =====
         function generarDias() {
             diasGrid.innerHTML = '';
             mesActual = parseInt(selectorMes.value);
@@ -811,7 +958,7 @@
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = `domingo_check_${i}`;
-                    checkbox.checked = true;
+                    checkbox.checked = false; // ✅ DESMARCADO POR DEFECTO
 
                     const checkLabel = document.createElement('label');
                     checkLabel.htmlFor = `domingo_check_${i}`;
@@ -826,6 +973,8 @@
 
                 diasGrid.appendChild(div);
             }
+
+            aplicarFiltro(filtroActual);
             setTimeout(actualizarSemanaCerrada, 50);
         }
 
@@ -862,7 +1011,7 @@
             }
         }
 
-        // ===== CÁLCULO PRINCIPAL CORREGIDO =====
+        // ===== CÁLCULO PRINCIPAL =====
         function calcular() {
             const salarioDia = parseFloat(salarioDiario.value) || 0;
             const asignacionFija = parseFloat(asignacionFamiliarTotal.value) || 0;
@@ -928,13 +1077,10 @@
             const pagoFeriadoNacional = salarioDia * feriadosNacionalesTrabajados;
             const pagoFeriadoArequipa = salarioDia * feriadosArequipaTrabajados;
 
-            // ✅ TOTAL REMUNERACIONES (incluye feriados)
             const totalRemuneraciones = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical + pagoFeriadoNacional + pagoFeriadoArequipa;
 
-            // ✅ BASE COMPUTABLE PARA ESSALUD, SENATI, ONP Y RETENCIÓN (NO incluye feriados)
             const baseComputable = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical;
 
-            // ===== DESCUENTOS Y APORTES =====
             let porcentajeDescuento = 0;
             const tipo = tipoDescuento.value;
             if (tipo === 'afp') porcentajeDescuento = 0.10;
@@ -947,7 +1093,6 @@
             const senati = baseComputable * 0.0075;
             const neto = totalRemuneraciones - descuento - retencion5ta - essalud - senati;
 
-            // Mostrar resultados
             haberBasicoResult.textContent = `S/ ${haberBasico.toFixed(2)}`;
             asignacionResult.textContent = `S/ ${asignacionFamiliar.toFixed(2)}`;
             horasExtras25Result.textContent = `S/ ${montoExtras25.toFixed(2)} (${horasExtras25.toFixed(1)} hrs)`;
@@ -973,7 +1118,7 @@
                 }
                 const checkbox = document.getElementById(`domingo_check_${i}`);
                 if (checkbox) {
-                    checkbox.checked = true;
+                    checkbox.checked = false; // ✅ DESMARCAR AL LIMPIAR
                 }
             }
             calcular();
@@ -1000,15 +1145,20 @@
                 }
                 const checkbox = document.getElementById(`domingo_check_${i}`);
                 if (checkbox) {
-                    checkbox.checked = true;
+                    checkbox.checked = false; // ✅ DESMARCAR AL CARGAR BOLETA
                 }
             }
             calcular();
         }
 
+        // ===== EVENTOS =====
         document.getElementById('calcularBtn').addEventListener('click', calcular);
         document.getElementById('limpiarBtn').addEventListener('click', limpiarHoras);
         document.getElementById('cargarBoletaBtn').addEventListener('click', cargarBoleta);
+
+        filtroAmbas.addEventListener('click', function() { aplicarFiltro('ambas'); });
+        filtroPrimera.addEventListener('click', function() { aplicarFiltro('primera'); });
+        filtroSegunda.addEventListener('click', function() { aplicarFiltro('segunda'); });
 
         selectorMes.addEventListener('change', function() {
             generarDias();
