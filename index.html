@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boleta Virtual IMCO SERVICIOS SAC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #eef4fa;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            padding: 24px 28px;
+            box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 3px solid #1b5e7c;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            color: #0b2b40;
+        }
+
+        .header .empresa {
+            text-align: right;
+            color: #1f5a7a;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            align-items: flex-end;
+        }
+
+        .controls .campo {
+            flex: 1 1 200px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px 20px;
+            margin-bottom: 16px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .campo label {
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: #1a4055;
+            letter-spacing: 0.2px;
+        }
+
+        .campo label .info {
+            font-weight: 400;
+            color: #5f7f94;
+            font-size: 0.65rem;
+        }
+
+        .campo input,
+        .campo select {
+            padding: 7px 11px;
+            border: 2px solid #d4e2ed;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #0b2b40;
+            background: white;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .campo input:focus,
+        .campo select:focus {
+            border-color: #2c7aa0;
+            box-shadow: 0 0 0 3px rgba(44, 122, 160, 0.12);
+            outline: none;
+        }
+
+        .campo input[readonly] {
+            background: #f0f7fc;
+            border-style: dashed;
+            color: #004466;
+        }
+
+        .campo input.acumulado {
+            background: #fff8e1;
+            border-color: #ffb74d;
+            font-weight: 700;
+            color: #e65100;
+        }
+
+        .seccion-dias {
+            margin: 14px 0 14px 0;
+            background: #f8fcff;
+            border-radius: 18px;
+            padding: 14px 18px;
+            border: 2px solid #dbe8f2;
+        }
+
+        .seccion-dias h3 {
+            font-size: 1rem;
+            color: #0b2b40;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .seccion-dias h3 .quincena-tag {
+            font-size: 0.75rem;
+            background: #1b5e7c;
+            color: white;
+            padding: 2px 14px;
+            border-radius: 60px;
+        }
+
+        .dias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+        }
+
+        .dia-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: white;
+            padding: 5px 8px 8px 8px;
+            border-radius: 12px;
+            border: 1px solid #dbe8f2;
+            position: relative;
+        }
+
+        .dia-item label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #1f5a7a;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dia-item label .dia-num {
+            background: #dce8f2;
+            padding: 0 6px;
+            border-radius: 30px;
+            font-size: 0.6rem;
+        }
+
+        .dia-item input[type="number"] {
+            padding: 4px 5px;
+            border: 2px solid #dce8f2;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            background: white;
+            transition: 0.15s;
+        }
+
+        .dia-item input[type="number"]:focus {
+            border-color: #2c7aa0;
+            box-shadow: 0 0 0 3px rgba(44, 122, 160, 0.1);
+            outline: none;
+        }
+
+        .dia-item input[type="number"].domingo.primera-quincena {
+            background: #fff3e0;
+            border-color: #ffb74d;
+        }
+
+        .dia-item input[type="number"].domingo.segunda-quincena {
+            background: #e3f2fd;
+            border-color: #64b5f6;
+        }
+
+        .dia-item input[type="number"].feriado {
+            background: #ffebee;
+            border-color: #ef5350;
+        }
+
+        .dia-item input[type="number"].feriado-arequipa {
+            background: #f3e5f5;
+            border-color: #ab47bc;
+        }
+
+        .dia-item input[type="number"].quincena2 {
+            background: #f0f7ff;
+            border-color: #90caf9;
+        }
+
+        .dia-item input[type="number"].semana-cerrada {
+            background: #e8f5e9;
+            border-color: #66bb6a;
+        }
+
+        .dia-item .domingo-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.6rem;
+            color: #1f5a7a;
+            margin-top: 2px;
+            padding: 2px 0;
+            background: #fff8e1;
+            border-radius: 4px;
+            border: 1px solid #ffe082;
+        }
+
+        .dia-item .domingo-check input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            accent-color: #1b5e7c;
+        }
+
+        .dia-item .domingo-check input[type="checkbox"]:checked {
+            accent-color: #2e7d5e;
+        }
+
+        .dia-item .domingo-check label {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #1a4055;
+            cursor: pointer;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 14px 0 16px 0;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1 0 auto;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #1b5e7c;
+            color: white;
+            box-shadow: 0 4px 14px rgba(27, 94, 124, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #124b66;
+            transform: scale(1.01);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #17445c;
+            border: 2px solid #b6d2e3;
+        }
+
+        .btn-secondary:hover {
+            background: #eef6fb;
+        }
+
+        .btn-success {
+            background: #2e7d5e;
+            color: white;
+            border: 2px solid #2e7d5e;
+        }
+
+        .btn-success:hover {
+            background: #1e5f45;
+        }
+
+        .btn-danger {
+            background: #c62828;
+            color: white;
+            border: 2px solid #c62828;
+        }
+
+        .btn-danger:hover {
+            background: #b71c1c;
+        }
+
+        .resultados {
+            margin-top: 16px;
+            background: #e5f0f8;
+            border-radius: 22px;
+            padding: 18px 22px;
+            border-left: 8px solid #1b5e7c;
+        }
+
+        .resultados h3 {
+            color: #003953;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .fila-resultado {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0, 50, 70, 0.06);
+            font-size: 0.9rem;
+        }
+
+        .fila-resultado:last-child {
+            border-bottom: none;
+        }
+
+        .fila-resultado .concepto {
+            font-weight: 500;
+            color: #144c66;
+        }
+
+        .fila-resultado .monto {
+            font-weight: 700;
+            color: #022b3d;
+            font-size: 1rem;
+        }
+
+        .fila-resultado .monto.total {
+            font-size: 1.4rem;
+            color: #004b6e;
+            background: #c7ddea;
+            padding: 0 14px;
+            border-radius: 60px;
+        }
+
+        .fila-resultado .monto.descuento {
+            color: #a1302b;
+        }
+
+        .fila-resultado .monto.aporte {
+            color: #2d6f4f;
+        }
+
+        .fila-resultado .monto.acumulado {
+            color: #e65100;
+            background: #fff3e0;
+            padding: 0 10px;
+            border-radius: 30px;
+        }
+
+        .nota-legal {
+            margin-top: 16px;
+            background: #f8fcff;
+            padding: 12px 18px;
+            border-radius: 16px;
+            border: 1px solid #c4dae9;
+            font-size: 0.78rem;
+            color: #1b4055;
+            line-height: 1.6;
+        }
+
+        .nota-legal strong {
+            color: #003153;
+        }
+
+        .badge {
+            background: #003153;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 60px;
+            font-size: 0.6rem;
+            margin-left: 6px;
+        }
+
+        .badge-acumulado {
+            background: #e65100;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 60px;
+            font-size: 0.6rem;
+            margin-left: 6px;
+        }
+
+        .leyenda {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            font-size: 0.75rem;
+        }
+
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .leyenda-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 12px;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .dias-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            }
+            .btn {
+                flex: 1 1 100%;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            .header .empresa {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>📋 IMCO SERVICIOS SAC</h1>
+        <div class="empresa">
+            RUC: 20454276761<br>
+            Vía Evitamiento Km.03 Cerro Colorado
+        </div>
+    </div>
+
+    <!-- Selector de Mes y Año -->
+    <div class="controls">
+        <div class="campo">
+            <label>📅 Mes</label>
+            <select id="selectorMes">
+                <option value="0">Enero</option>
+                <option value="1">Febrero</option>
+                <option value="2">Marzo</option>
+                <option value="3">Abril</option>
+                <option value="4">Mayo</option>
+                <option value="5">Junio</option>
+                <option value="6" selected>Julio</option>
+                <option value="7">Agosto</option>
+                <option value="8">Septiembre</option>
+                <option value="9">Octubre</option>
+                <option value="10">Noviembre</option>
+                <option value="11">Diciembre</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label>📅 Año</label>
+            <select id="selectorAnio">
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+            </select>
+        </div>
+        <div class="campo" style="flex:1;">
+            <label>📌 Mes actual</label>
+            <input type="text" id="mesActualDisplay" value="Julio 2026" readonly>
+        </div>
+    </div>
+
+    <!-- Datos fijos (EDITABLES) -->
+    <div class="grid-3">
+        <div class="campo">
+            <label>👤 Trabajador</label>
+            <input type="text" id="nombreTrabajador" value="MANRIQUE MONZON, PAUL EMERSON">
+        </div>
+        <div class="campo">
+            <label>📌 DNI</label>
+            <input type="text" id="dni" value="80294954">
+        </div>
+        <div class="campo">
+            <label>💰 Salario Diario (S/)</label>
+            <input type="number" id="salarioDiario" value="85" step="1" min="0">
+        </div>
+        <div class="campo">
+            <label>👶 Asignación Familiar (S/) <span class="info">(total quincena)</span></label>
+            <input type="number" id="asignacionFamiliarTotal" value="56.50" step="0.01" min="0">
+        </div>
+        <div class="campo">
+            <label>🏢 Tipo de descuento</label>
+            <select id="tipoDescuento">
+                <option value="onp" selected>ONP (13%)</option>
+                <option value="afp">AFP (10%)</option>
+                <option value="sin">Sin descuento</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label>📍 Región</label>
+            <select id="selectorRegion">
+                <option value="arequipa" selected>Arequipa (con feriado regional)</option>
+                <option value="otras">Otras regiones (sin feriado regional)</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- CAMPO DE HORAS ACUMULADAS DE QUINCENA ANTERIOR -->
+    <div class="grid-3" style="background:#fff8e1; border-radius:12px; padding:12px 16px; border:2px solid #ffb74d; margin-bottom:16px;">
+        <div class="campo">
+            <label>📦 Horas Extras Acumuladas (Quincena Anterior) <span class="info">(días 14 y 15)</span></label>
+            <input type="number" id="horasAcumuladasQuincena" value="12" step="0.5" min="0" class="acumulado">
+        </div>
+        <div class="campo" style="justify-content:flex-end;">
+            <label style="color:#e65100; font-weight:700;">⏳ Estas horas se suman al cálculo actual</label>
+        </div>
+        <div class="campo" style="justify-content:flex-end;">
+            <label style="color:#e65100; font-weight:700; font-size:0.7rem;">Ejemplo: 12h (6h del 14 + 6h del 15)</label>
+        </div>
+    </div>
+
+    <!-- Leyenda -->
+    <div class="leyenda">
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Domingo (1ra Quincena)</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Domingo (2da Quincena)</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#ffebee;border-color:#ef5350;"></span> Feriado Nacional</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#f3e5f5;border-color:#ab47bc;"></span> Feriado Arequipa</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#f0f7ff;border-color:#90caf9;"></span> 2da Quincena</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e8f5e9;border-color:#66bb6a;"></span> Semana Cerrada</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff8e1;border-color:#e65100;"></span> Horas Acumuladas</span>
+    </div>
+
+    <!-- Registro de horas día a día -->
+    <div class="seccion-dias">
+        <h3>
+            🕒 Horas trabajadas - <span id="tituloMes">Julio 2026</span>
+            <span class="quincena-tag">1ra Quincena (1-15)</span>
+            <span class="quincena-tag" style="background:#2e7d5e;">2da Quincena (16-31)</span>
+        </h3>
+        <div class="dias-grid" id="diasGrid">
+            <!-- Se genera con JS -->
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="btn-group">
+        <button class="btn btn-primary" id="calcularBtn">🧮 Calcular</button>
+        <button class="btn btn-danger" id="limpiarBtn">🗑️ Limpiar todas las horas</button>
+        <button class="btn btn-success" id="cargarBoletaBtn">📄 Cargar datos de boleta</button>
+    </div>
+
+    <!-- Resultados -->
+    <div class="resultados" id="resultadosBox">
+        <h3>📊 Resumen de pago - <span id="tituloMesResultado">Julio 2026</span></h3>
+        <div id="detalleResultados">
+            <div class="fila-resultado">
+                <span class="concepto">💰 Haber Básico</span>
+                <span class="monto" id="haberBasicoResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">👶 Asignación Familiar</span>
+                <span class="monto" id="asignacionResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🕒 Horas Extras 25%</span>
+                <span class="monto" id="horasExtras25Result">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🕒 Horas Extras 35%</span>
+                <span class="monto" id="horasExtras35Result">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado" style="background:#fff8e1; border-radius:8px; padding:6px 8px; margin:4px 0;">
+                <span class="concepto">📦 Horas Acumuladas (quincena anterior)</span>
+                <span class="monto acumulado" id="horasAcumuladasMostrar">0.0 hrs</span>
+            </div>
+            <div class="fila-resultado" style="background:#e8f5e9; border-radius:8px; padding:6px 8px; margin:4px 0;">
+                <span class="concepto">🗓️ Salario Dominical (8.33% recargo)</span>
+                <span class="monto" id="dominicalResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado" style="background:#ffebee; border-radius:8px; padding:6px 8px; margin:4px 0;">
+                <span class="concepto">🎉 Pago por Feriado (Nacional)</span>
+                <span class="monto" id="feriadoNacionalResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado" style="background:#f3e5f5; border-radius:8px; padding:6px 8px; margin:4px 0;">
+                <span class="concepto">🎉 Pago por Feriado (Arequipa)</span>
+                <span class="monto" id="feriadoArequipaResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado" style="border-top: 2px solid #b2cbd9; margin-top: 6px; padding-top: 10px;">
+                <span class="concepto" style="font-weight:700;">📈 TOTAL REMUNERACIONES</span>
+                <span class="monto" id="totalRemuneracionesResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🔻 Descuento ONP/AFP</span>
+                <span class="monto descuento" id="descuentoResult">- S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🔻 Retención 5ta Categoría</span>
+                <span class="monto descuento" id="retencion5taResult">- S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🏥 Aporte ESSALUD (9%)</span>
+                <span class="monto aporte" id="essaludResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado">
+                <span class="concepto">🏭 Aporte SENATI (0.75%)</span>
+                <span class="monto aporte" id="senatiResult">S/ 0.00</span>
+            </div>
+            <div class="fila-resultado" style="border-top: 3px solid #1b5e7c; margin-top: 10px; padding-top: 12px;">
+                <span class="concepto" style="font-weight:700; font-size:1.1rem;">💵 NETO A PAGAR</span>
+                <span class="monto total" id="netoResult">S/ 0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="nota-legal">
+        <strong>⚖️ Base legal:</strong> D.S. 001-98-TR · Horas extras 25% y 35% (D.Leg. 854) · 
+        ONP 13% · ESSALUD 9% · SENATI 0.75% · Retención 5ta 1.96% ·
+        <span class="badge">Actualizado 2026</span>
+        <span class="badge-acumulado">📦 Horas acumuladas</span>
+        <br>
+        <strong>📌 ESSALUD y SENATI:</strong> Se calculan sobre la <strong>remuneración computable</strong> (NO incluye pago por feriados).
+        <br>
+        <strong>📌 Días 14 y 15:</strong> Las horas extras NO se pagan en esta quincena (se acumulan). Pero si se trabaja al menos 1 hora, el día SÍ se cuenta como laborado para el Haber Básico.
+        <br>
+        <strong>📌 Salario Dominical:</strong> Se calcula con un recargo del <strong>8.33% (1/12)</strong>. Marca el checkbox en cada domingo para que sea considerado como <strong>dominical</strong>.
+        <br>
+        <strong>📌 Asignación Familiar:</strong> S/ 56.50 (valor fijo de tu boleta).
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ===== CONFIGURACIÓN DE FERIADOS POR MES =====
+        const FERIADOS_NACIONALES_POR_MES = {
+            0: [1],
+            1: [],
+            2: [],
+            3: [2, 3],
+            4: [1],
+            5: [29],
+            6: [28, 29],
+            7: [30],
+            8: [],
+            9: [8],
+            10: [1],
+            11: [8, 9, 25]
+        };
+
+        const FERIADO_AREQUIPA = 15;
+
+        const NOMBRES_MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        const DIAS_SEMANA = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
+        // Referencias
+        const diasGrid = document.getElementById('diasGrid');
+        const salarioDiario = document.getElementById('salarioDiario');
+        const asignacionFamiliarTotal = document.getElementById('asignacionFamiliarTotal');
+        const tipoDescuento = document.getElementById('tipoDescuento');
+        const selectorMes = document.getElementById('selectorMes');
+        const selectorAnio = document.getElementById('selectorAnio');
+        const selectorRegion = document.getElementById('selectorRegion');
+        const mesActualDisplay = document.getElementById('mesActualDisplay');
+        const tituloMes = document.getElementById('tituloMes');
+        const tituloMesResultado = document.getElementById('tituloMesResultado');
+
+        const horasAcumuladasQuincena = document.getElementById('horasAcumuladasQuincena');
+        const horasAcumuladasMostrar = document.getElementById('horasAcumuladasMostrar');
+
+        const haberBasicoResult = document.getElementById('haberBasicoResult');
+        const asignacionResult = document.getElementById('asignacionResult');
+        const horasExtras25Result = document.getElementById('horasExtras25Result');
+        const horasExtras35Result = document.getElementById('horasExtras35Result');
+        const dominicalResult = document.getElementById('dominicalResult');
+        const feriadoNacionalResult = document.getElementById('feriadoNacionalResult');
+        const feriadoArequipaResult = document.getElementById('feriadoArequipaResult');
+        const totalRemuneracionesResult = document.getElementById('totalRemuneracionesResult');
+        const descuentoResult = document.getElementById('descuentoResult');
+        const retencion5taResult = document.getElementById('retencion5taResult');
+        const essaludResult = document.getElementById('essaludResult');
+        const senatiResult = document.getElementById('senatiResult');
+        const netoResult = document.getElementById('netoResult');
+
+        let mesActual = 6;
+        let anioActual = 2026;
+        let diasEnMes = 31;
+        let primerDiaSemana = 3;
+
+        function getDiasEnMes(mes, anio) {
+            return new Date(anio, mes + 1, 0).getDate();
+        }
+
+        function getPrimerDiaSemana(mes, anio) {
+            const dia = new Date(anio, mes, 1).getDay();
+            return dia === 0 ? 6 : dia - 1;
+        }
+
+        function esFeriadoNacional(dia, mes) {
+            const feriados = FERIADOS_NACIONALES_POR_MES[mes] || [];
+            return feriados.includes(dia);
+        }
+
+        function esFeriadoArequipa(dia, mes) {
+            const esArequipa = selectorRegion.value === 'arequipa';
+            return esArequipa && mes === 7 && dia === FERIADO_AREQUIPA;
+        }
+
+        function esDomingo(dia, mes, anio) {
+            const fecha = new Date(anio, mes, dia);
+            return fecha.getDay() === 0;
+        }
+
+        function generarDias() {
+            diasGrid.innerHTML = '';
+            mesActual = parseInt(selectorMes.value);
+            anioActual = parseInt(selectorAnio.value);
+            diasEnMes = getDiasEnMes(mesActual, anioActual);
+            primerDiaSemana = getPrimerDiaSemana(mesActual, anioActual);
+
+            const nombreMes = NOMBRES_MESES[mesActual];
+            mesActualDisplay.value = `${nombreMes} ${anioActual}`;
+            tituloMes.textContent = `${nombreMes} ${anioActual}`;
+            tituloMesResultado.textContent = `${nombreMes} ${anioActual}`;
+
+            for (let i = 1; i <= diasEnMes; i++) {
+                const div = document.createElement('div');
+                div.className = 'dia-item';
+
+                const esDom = esDomingo(i, mesActual, anioActual);
+                const esFerNac = esFeriadoNacional(i, mesActual);
+                const esFerAreq = esFeriadoArequipa(i, mesActual);
+                const esQuincena2 = i >= 16;
+                const idxDia = (primerDiaSemana + i - 1) % 7;
+
+                const label = document.createElement('label');
+                const diaNum = document.createElement('span');
+                diaNum.className = 'dia-num';
+                let etiqueta = DIAS_SEMANA[idxDia];
+                if (esDom) etiqueta = '☀️ Dom';
+                else if (esFerNac) etiqueta = '🎉 Fer.';
+                else if (esFerAreq) etiqueta = '🎉 Areq.';
+                diaNum.textContent = etiqueta;
+                label.innerHTML = `${i} `;
+                label.appendChild(diaNum);
+                div.appendChild(label);
+
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = `hora_${i}`;
+                input.value = '0';
+                input.min = '0';
+                input.max = '24';
+                input.step = '0.5';
+                input.placeholder = 'hrs';
+
+                if (esDom) {
+                    input.classList.add('domingo');
+                    if (i <= 15) {
+                        input.classList.add('primera-quincena');
+                    } else {
+                        input.classList.add('segunda-quincena');
+                    }
+                }
+
+                if (esFerNac) input.classList.add('feriado');
+                if (esFerAreq) input.classList.add('feriado-arequipa');
+                if (esQuincena2) input.classList.add('quincena2');
+
+                div.appendChild(input);
+
+                if (esDom) {
+                    const checkDiv = document.createElement('div');
+                    checkDiv.className = 'domingo-check';
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `domingo_check_${i}`;
+                    checkbox.checked = true;
+
+                    const checkLabel = document.createElement('label');
+                    checkLabel.htmlFor = `domingo_check_${i}`;
+                    checkLabel.textContent = '✅ Dominical';
+
+                    checkDiv.appendChild(checkbox);
+                    checkDiv.appendChild(checkLabel);
+                    div.appendChild(checkDiv);
+
+                    checkbox.addEventListener('change', calcular);
+                }
+
+                diasGrid.appendChild(div);
+            }
+            setTimeout(actualizarSemanaCerrada, 50);
+        }
+
+        function esSemanaCerrada(dia) {
+            const idxDia = (primerDiaSemana + dia - 1) % 7;
+            if (idxDia === 6) return false;
+            const inicioSemana = dia - idxDia;
+            const finSemana = inicioSemana + 5;
+            if (inicioSemana < 1 || finSemana > diasEnMes) return false;
+
+            let diasConHoras = 0;
+            for (let i = inicioSemana; i <= finSemana; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (input && parseFloat(input.value) > 0) {
+                    diasConHoras++;
+                }
+            }
+            return diasConHoras === 6;
+        }
+
+        function actualizarSemanaCerrada() {
+            for (let i = 1; i <= diasEnMes; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (!input) continue;
+                const esDom = esDomingo(i, mesActual, anioActual);
+                const esFerNac = esFeriadoNacional(i, mesActual);
+                const esFerAreq = esFeriadoArequipa(i, mesActual);
+                if (esDom || esFerNac || esFerAreq) continue;
+                if (esSemanaCerrada(i)) {
+                    input.classList.add('semana-cerrada');
+                } else {
+                    input.classList.remove('semana-cerrada');
+                }
+            }
+        }
+
+        // ===== CÁLCULO PRINCIPAL CORREGIDO =====
+        function calcular() {
+            const salarioDia = parseFloat(salarioDiario.value) || 0;
+            const asignacionFija = parseFloat(asignacionFamiliarTotal.value) || 0;
+            const valorHora = salarioDia / 8;
+
+            const horasAcumuladas = parseFloat(horasAcumuladasQuincena.value) || 0;
+            horasAcumuladasMostrar.textContent = `${horasAcumuladas.toFixed(1)} hrs`;
+
+            let diasLaborados = 0;
+            let horasExtras25 = 0;
+            let horasExtras35 = 0;
+            let domingosLaborados = 0;
+            let feriadosNacionalesTrabajados = 0;
+            let feriadosArequipaTrabajados = 0;
+
+            for (let i = 1; i <= diasEnMes; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (!input) continue;
+                let horas = parseFloat(input.value) || 0;
+                if (horas < 0) horas = 0;
+
+                const esDom = esDomingo(i, mesActual, anioActual);
+                const esFerNac = esFeriadoNacional(i, mesActual);
+                const esFerAreq = esFeriadoArequipa(i, mesActual);
+
+                if (horas > 0) {
+                    diasLaborados++;
+                    if (esFerNac) feriadosNacionalesTrabajados++;
+                    if (esFerAreq) feriadosArequipaTrabajados++;
+                }
+
+                if (esDom) {
+                    const checkbox = document.getElementById(`domingo_check_${i}`);
+                    if (checkbox && checkbox.checked) {
+                        domingosLaborados++;
+                    }
+                }
+
+                const esUltimoDia = (mesActual === 6 && (i === 14 || i === 15));
+
+                if (!esUltimoDia) {
+                    const normales = Math.min(horas, 8);
+                    let extras = horas - 8;
+                    if (extras > 0) {
+                        const ext25 = Math.min(extras, 2);
+                        horasExtras25 += ext25;
+                        const ext35 = extras - ext25;
+                        horasExtras35 += ext35;
+                    }
+                }
+            }
+
+            horasExtras35 += horasAcumuladas;
+
+            const haberBasico = salarioDia * diasLaborados;
+            const asignacionFamiliar = asignacionFija;
+            const montoExtras25 = valorHora * 1.25 * horasExtras25;
+            const montoExtras35 = valorHora * 1.35 * horasExtras35;
+
+            const RECARGO_DOMINICAL = 1 / 12;
+            const dominical = salarioDia * domingosLaborados * (1 + RECARGO_DOMINICAL);
+
+            const pagoFeriadoNacional = salarioDia * feriadosNacionalesTrabajados;
+            const pagoFeriadoArequipa = salarioDia * feriadosArequipaTrabajados;
+
+            // ✅ TOTAL REMUNERACIONES (incluye feriados)
+            const totalRemuneraciones = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical + pagoFeriadoNacional + pagoFeriadoArequipa;
+
+            // ✅ BASE COMPUTABLE PARA ESSALUD, SENATI, ONP Y RETENCIÓN (NO incluye feriados)
+            const baseComputable = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical;
+
+            // ===== DESCUENTOS Y APORTES =====
+            let porcentajeDescuento = 0;
+            const tipo = tipoDescuento.value;
+            if (tipo === 'afp') porcentajeDescuento = 0.10;
+            else if (tipo === 'onp') porcentajeDescuento = 0.13;
+            else porcentajeDescuento = 0;
+
+            const descuento = baseComputable * porcentajeDescuento;
+            const retencion5ta = baseComputable * 0.0196;
+            const essalud = baseComputable * 0.09;
+            const senati = baseComputable * 0.0075;
+            const neto = totalRemuneraciones - descuento - retencion5ta - essalud - senati;
+
+            // Mostrar resultados
+            haberBasicoResult.textContent = `S/ ${haberBasico.toFixed(2)}`;
+            asignacionResult.textContent = `S/ ${asignacionFamiliar.toFixed(2)}`;
+            horasExtras25Result.textContent = `S/ ${montoExtras25.toFixed(2)} (${horasExtras25.toFixed(1)} hrs)`;
+            horasExtras35Result.textContent = `S/ ${montoExtras35.toFixed(2)} (${horasExtras35.toFixed(1)} hrs)`;
+            dominicalResult.textContent = `S/ ${dominical.toFixed(2)} (${domingosLaborados} domingos)`;
+            feriadoNacionalResult.textContent = `S/ ${pagoFeriadoNacional.toFixed(2)} (${feriadosNacionalesTrabajados} días)`;
+            feriadoArequipaResult.textContent = `S/ ${pagoFeriadoArequipa.toFixed(2)} (${feriadosArequipaTrabajados} días)`;
+            totalRemuneracionesResult.textContent = `S/ ${totalRemuneraciones.toFixed(2)}`;
+            descuentoResult.textContent = `- S/ ${descuento.toFixed(2)} (${(porcentajeDescuento*100).toFixed(0)}%)`;
+            retencion5taResult.textContent = `- S/ ${retencion5ta.toFixed(2)}`;
+            essaludResult.textContent = `S/ ${essalud.toFixed(2)}`;
+            senatiResult.textContent = `S/ ${senati.toFixed(2)}`;
+            netoResult.textContent = `S/ ${neto.toFixed(2)}`;
+
+            actualizarSemanaCerrada();
+        }
+
+        function limpiarHoras() {
+            for (let i = 1; i <= diasEnMes; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (input) {
+                    input.value = '0';
+                }
+                const checkbox = document.getElementById(`domingo_check_${i}`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            }
+            calcular();
+        }
+
+        function cargarBoleta() {
+            salarioDiario.value = '85';
+            asignacionFamiliarTotal.value = '56.50';
+            tipoDescuento.value = 'onp';
+            horasAcumuladasQuincena.value = '12';
+
+            limpiarHoras();
+
+            const horasEjemplo = {
+                1: 16.0, 2: 11.5, 3: 12.5,
+                6: 16.0, 7: 11.5, 8: 11.5, 9: 13.5, 10: 16.0,
+                13: 16.0, 14: 16.0, 15: 16.0
+            };
+
+            for (let i = 1; i <= diasEnMes; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (input && horasEjemplo[i] !== undefined) {
+                    input.value = horasEjemplo[i];
+                }
+                const checkbox = document.getElementById(`domingo_check_${i}`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            }
+            calcular();
+        }
+
+        document.getElementById('calcularBtn').addEventListener('click', calcular);
+        document.getElementById('limpiarBtn').addEventListener('click', limpiarHoras);
+        document.getElementById('cargarBoletaBtn').addEventListener('click', cargarBoleta);
+
+        selectorMes.addEventListener('change', function() {
+            generarDias();
+            limpiarHoras();
+        });
+        selectorAnio.addEventListener('change', function() {
+            generarDias();
+            limpiarHoras();
+        });
+        selectorRegion.addEventListener('change', function() {
+            generarDias();
+            limpiarHoras();
+        });
+
+        salarioDiario.addEventListener('input', calcular);
+        asignacionFamiliarTotal.addEventListener('input', calcular);
+        tipoDescuento.addEventListener('change', calcular);
+        horasAcumuladasQuincena.addEventListener('input', calcular);
+
+        document.addEventListener('input', function(e) {
+            if (e.target.id && e.target.id.startsWith('hora_')) {
+                calcular();
+            }
+        });
+
+        generarDias();
+        limpiarHoras();
+    })();
+</script>
+
+</body>
+</html>
