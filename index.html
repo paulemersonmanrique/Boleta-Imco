@@ -14,17 +14,17 @@
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             background: #eef4fa;
             min-height: 100vh;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             justify-content: center;
             align-items: flex-start;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             width: 100%;
             background: white;
-            border-radius: 28px;
-            padding: 24px 28px;
+            border-radius: 20px;
+            padding: 16px 20px;
             box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15);
         }
         .header {
@@ -32,42 +32,60 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            border-bottom: 3px solid #1b5e7c;
-            padding-bottom: 14px;
-            margin-bottom: 18px;
+            border-bottom: 2px solid #1b5e7c;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
-        .header h1 { font-size: 1.6rem;
+        .header h1 { font-size: 1.3rem;
             color: #0b2b40; }
         .header .empresa { text-align: right;
             color: #1f5a7a;
             font-weight: 600;
-            font-size: 0.9rem; }
-        .controls { display: flex;
-            gap: 12px;
+            font-size: 0.8rem; }
+        
+        /* CONTROLES UNIFICADOS */
+        .controls {
+            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 16px;
-            align-items: flex-end; }
-        .controls .campo { flex: 1 1 200px; }
-        .grid-3 { display: grid;
+            margin-bottom: 10px;
+            align-items: center;
+            background: #f5f9fc;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+        .controls .campo {
+            flex: 0 1 auto;
+        }
+        
+        .grid-3 {
+            display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px 20px;
-            margin-bottom: 16px; }
-        .campo { display: flex;
+            gap: 8px 15px;
+            margin-bottom: 10px;
+        }
+        .campo {
+            display: flex;
             flex-direction: column;
-            gap: 2px; }
-        .campo label { font-weight: 600;
-            font-size: 0.78rem;
+            gap: 1px;
+        }
+        .campo label {
+            font-weight: 600;
+            font-size: 0.7rem;
             color: #1a4055;
-            letter-spacing: 0.2px; }
-        .campo label .info { font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        .campo label .info {
+            font-weight: 400;
             color: #5f7f94;
-            font-size: 0.65rem; }
+            font-size: 0.6rem;
+        }
         .campo input,
         .campo select {
-            padding: 7px 11px;
+            padding: 5px 10px;
             border: 2px solid #d4e2ed;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 500;
             color: #0b2b40;
             background: white;
@@ -80,9 +98,11 @@
             box-shadow: 0 0 0 3px rgba(44, 122, 160, 0.12);
             outline: none;
         }
-        .campo input[readonly] { background: #f0f7fc;
+        .campo input[readonly] {
+            background: #f0f7fc;
             border-style: dashed;
-            color: #004466; }
+            color: #004466;
+        }
         .campo input.acumulado {
             background: #fff8e1;
             border-color: #ffb74d;
@@ -91,34 +111,91 @@
             max-width: 70px;
             text-align: center;
         }
-        .seccion-dias {
-            margin: 14px 0 14px 0;
+
+        /* CONTENEDOR HORAS ACUMULADAS - COMPACTO */
+        .horas-acumuladas-container {
+            background: #fff8e1;
+            border-radius: 8px;
+            padding: 6px 12px;
+            border: 2px solid #ffb74d;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .horas-acumuladas-container .campo {
+            flex: 0 1 auto;
+        }
+        .horas-acumuladas-container .campo input {
+            max-width: 70px;
+            text-align: center;
+            background: #fff8e1;
+            border-color: #ffb74d;
+            font-weight: 700;
+            color: #e65100;
+        }
+        .horas-acumuladas-container .info-texto {
+            font-size: 0.65rem;
+            color: #e65100;
+            font-weight: 600;
+        }
+
+        /* LEYENDA OCULTA - Reemplazada por versión compacta */
+        .leyenda {
+            display: none !important;
+        }
+        .leyenda-compacta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+            font-size: 0.6rem;
             background: #f8fcff;
-            border-radius: 18px;
-            padding: 14px 18px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #dbe8f2;
+        }
+        .leyenda-compacta .leyenda-item {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .leyenda-compacta .leyenda-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        .seccion-dias {
+            margin: 8px 0 10px 0;
+            background: #f8fcff;
+            border-radius: 14px;
+            padding: 10px 14px;
             border: 2px solid #dbe8f2;
         }
         .seccion-dias h3 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #0b2b40;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
         .dias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 4px;
         }
         .dia-item {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
             background: white;
-            padding: 4px 4px 6px 4px;
-            border-radius: 10px;
+            padding: 3px 3px 5px 3px;
+            border-radius: 8px;
             border: 1px solid #dbe8f2;
             position: relative;
             align-items: center;
@@ -126,7 +203,7 @@
         }
         .dia-item.oculto { display: none; }
         .dia-item label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: 600;
             color: #1f5a7a;
             display: flex;
@@ -136,18 +213,18 @@
         }
         .dia-item label .dia-num {
             background: #dce8f2;
-            padding: 0 5px;
-            border-radius: 30px;
-            font-size: 0.55rem;
+            padding: 0 4px;
+            border-radius: 20px;
+            font-size: 0.5rem;
         }
         .dia-item input[type="number"] {
-            padding: 3px 2px;
+            padding: 2px 2px;
             border: 2px solid #dce8f2;
-            border-radius: 6px;
-            font-size: 0.8rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
             width: 100%;
-            max-width: 50px;
-            min-width: 38px;
+            max-width: 45px;
+            min-width: 32px;
             text-align: center;
             font-weight: 600;
             background: white;
@@ -166,6 +243,8 @@
             box-shadow: 0 0 0 3px rgba(44, 122, 160, 0.1);
             outline: none;
         }
+        
+        /* ESTILOS DE COLOR PARA DÍAS ESPECIALES - SE MANTIENEN PARA FUNCIONALIDAD */
         .dia-item input[type="number"].domingo.primera-quincena {
             background: #fff3e0;
             border-color: #ffb74d;
@@ -190,23 +269,24 @@
             background: #e8f5e9;
             border-color: #66bb6a;
         }
+
         .dia-item .domingo-check {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
-            font-size: 0.55rem;
+            gap: 2px;
+            font-size: 0.5rem;
             color: #1f5a7a;
-            margin-top: 2px;
-            padding: 2px 0;
+            margin-top: 1px;
+            padding: 1px 0;
             background: #fff8e1;
-            border-radius: 4px;
+            border-radius: 3px;
             border: 1px solid #ffe082;
             width: 100%;
         }
         .dia-item .domingo-check input[type="checkbox"] {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             cursor: pointer;
             accent-color: #1b5e7c;
         }
@@ -214,7 +294,7 @@
             accent-color: #2e7d5e;
         }
         .dia-item .domingo-check label {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-weight: 600;
             color: #1a4055;
             cursor: pointer;
@@ -223,19 +303,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
-            font-size: 0.55rem;
+            gap: 2px;
+            font-size: 0.5rem;
             color: #1f5a7a;
-            margin-top: 2px;
-            padding: 2px 0;
+            margin-top: 1px;
+            padding: 1px 0;
             background: #e3f2fd;
-            border-radius: 4px;
+            border-radius: 3px;
             border: 1px solid #64b5f6;
             width: 100%;
         }
         .dia-item .sabado-check input[type="checkbox"] {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             cursor: pointer;
             accent-color: #1b5e7c;
         }
@@ -243,28 +323,72 @@
             accent-color: #2e7d5e;
         }
         .dia-item .sabado-check label {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             font-weight: 600;
             color: #1a4055;
             cursor: pointer;
         }
+
+        .filtros-quincena {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .filtros-quincena .btn-filtro {
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            border: 2px solid #b6d2e3;
+            cursor: pointer;
+            transition: 0.15s;
+            background: white;
+            color: #17445c;
+        }
+        .filtros-quincena .btn-filtro:hover {
+            background: #eef6fb;
+        }
+        .filtros-quincena .btn-filtro.activo {
+            background: #1b5e7c;
+            color: white;
+            border-color: #1b5e7c;
+            box-shadow: 0 4px 12px rgba(27, 94, 124, 0.3);
+        }
+        .filtros-quincena .btn-filtro.primera {
+            border-color: #ffb74d;
+        }
+        .filtros-quincena .btn-filtro.primera.activo {
+            background: #ffb74d;
+            border-color: #ff9800;
+            color: #4a2800;
+        }
+        .filtros-quincena .btn-filtro.segunda {
+            border-color: #64b5f6;
+        }
+        .filtros-quincena .btn-filtro.segunda.activo {
+            background: #64b5f6;
+            border-color: #1e88e5;
+            color: #0d2b4a;
+        }
+
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin: 14px 0 16px 0;
+            margin: 10px 0 12px 0;
         }
         .btn {
-            padding: 10px 24px;
-            border-radius: 60px;
+            padding: 7px 18px;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             border: none;
             cursor: pointer;
             transition: 0.15s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             flex: 1 0 auto;
             justify-content: center;
         }
@@ -301,24 +425,25 @@
         .btn-danger:hover {
             background: #b71c1c;
         }
+
         .resultados {
-            margin-top: 16px;
+            margin-top: 10px;
             background: #e5f0f8;
-            border-radius: 22px;
-            padding: 18px 22px;
-            border-left: 8px solid #1b5e7c;
+            border-radius: 16px;
+            padding: 12px 16px;
+            border-left: 6px solid #1b5e7c;
         }
         .resultados h3 {
             color: #003953;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 1rem;
+            margin-bottom: 8px;
         }
         .fila-resultado {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
+            padding: 4px 0;
             border-bottom: 1px solid rgba(0, 50, 70, 0.06);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
         .fila-resultado:last-child {
             border-bottom: none;
@@ -330,14 +455,14 @@
         .fila-resultado .monto {
             font-weight: 700;
             color: #022b3d;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         .fila-resultado .monto.total {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #004b6e;
             background: #c7ddea;
-            padding: 0 14px;
-            border-radius: 60px;
+            padding: 0 12px;
+            border-radius: 30px;
         }
         .fila-resultado .monto.descuento {
             color: #a1302b;
@@ -348,18 +473,19 @@
         .fila-resultado .monto.acumulado {
             color: #e65100;
             background: #fff3e0;
-            padding: 0 10px;
-            border-radius: 30px;
+            padding: 0 8px;
+            border-radius: 20px;
         }
+
         .nota-legal {
-            margin-top: 16px;
+            margin-top: 10px;
             background: #f8fcff;
-            padding: 12px 18px;
-            border-radius: 16px;
+            padding: 8px 14px;
+            border-radius: 12px;
             border: 1px solid #c4dae9;
-            font-size: 0.78rem;
+            font-size: 0.7rem;
             color: #1b4055;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .nota-legal strong {
             color: #003153;
@@ -367,105 +493,70 @@
         .badge {
             background: #003153;
             color: white;
-            padding: 2px 10px;
-            border-radius: 60px;
-            font-size: 0.6rem;
-            margin-left: 6px;
+            padding: 1px 8px;
+            border-radius: 30px;
+            font-size: 0.55rem;
+            margin-left: 4px;
         }
         .badge-acumulado {
             background: #e65100;
             color: white;
-            padding: 2px 10px;
-            border-radius: 60px;
-            font-size: 0.6rem;
-            margin-left: 6px;
+            padding: 1px 8px;
+            border-radius: 30px;
+            font-size: 0.55rem;
+            margin-left: 4px;
         }
-        .leyenda {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-            font-size: 0.75rem;
+
+        /* OCULTAR CAMPO DE MES ACTUAL */
+        #mesActualDisplay {
+            display: none !important;
         }
-        .leyenda-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .leyenda-color {
-            width: 18px;
-            height: 18px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        .filtros-quincena {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-        .filtros-quincena .btn-filtro {
-            padding: 6px 18px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            border: 2px solid #b6d2e3;
-            cursor: pointer;
-            transition: 0.15s;
-            background: white;
-            color: #17445c;
-        }
-        .filtros-quincena .btn-filtro:hover {
-            background: #eef6fb;
-        }
-        .filtros-quincena .btn-filtro.activo {
-            background: #1b5e7c;
-            color: white;
-            border-color: #1b5e7c;
-            box-shadow: 0 4px 12px rgba(27, 94, 124, 0.3);
-        }
-        .filtros-quincena .btn-filtro.primera {
-            border-color: #ffb74d;
-        }
-        .filtros-quincena .btn-filtro.primera.activo {
-            background: #ffb74d;
-            border-color: #ff9800;
-            color: #4a2800;
-        }
-        .filtros-quincena .btn-filtro.segunda {
-            border-color: #64b5f6;
-        }
-        .filtros-quincena .btn-filtro.segunda.activo {
-            background: #64b5f6;
-            border-color: #1e88e5;
-            color: #0d2b4a;
-        }
+
         @media (max-width: 700px) {
-            .container { padding: 12px; }
+            .container { padding: 10px; }
             .grid-3 { grid-template-columns: 1fr;
-                gap: 8px; }
-            .dias-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-                gap: 4px; }
-            .dia-item input[type="number"] { max-width: 42px;
-                min-width: 32px;
-                font-size: 0.7rem; }
-            .dia-item { padding: 3px 3px 4px 3px; }
+                gap: 6px; }
+            .dias-grid { grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+                gap: 3px; }
+            .dia-item input[type="number"] { max-width: 40px;
+                min-width: 28px;
+                font-size: 0.65rem; }
+            .dia-item { padding: 2px 2px 3px 2px; }
             .dia-item label { font-size: 0.5rem; }
             .dia-item .domingo-check,
-            .dia-item .sabado-check { font-size: 0.5rem; }
+            .dia-item .sabado-check { font-size: 0.45rem; }
             .dia-item .domingo-check input[type="checkbox"],
-            .dia-item .sabado-check input[type="checkbox"] { width: 10px;
-                height: 10px; }
-            .btn { flex: 1 1 100%; }
+            .dia-item .sabado-check input[type="checkbox"] { width: 9px;
+                height: 9px; }
+            .btn { flex: 1 1 100%;
+                font-size: 0.75rem;
+                padding: 6px 14px; }
             .header { flex-direction: column;
                 align-items: flex-start;
-                gap: 6px; }
+                gap: 4px; }
             .header .empresa { text-align: left; }
             .filtros-quincena .btn-filtro { flex: 1 1 auto;
                 text-align: center;
-                font-size: 0.7rem;
-                padding: 4px 12px; }
-            .campo input.acumulado { max-width: 60px; }
+                font-size: 0.65rem;
+                padding: 3px 10px; }
+            .horas-acumuladas-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+            .horas-acumuladas-container .campo input {
+                max-width: 100%;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .controls .campo {
+                width: 100%;
+            }
+            .leyenda-compacta {
+                font-size: 0.55rem;
+                padding: 3px 8px;
+            }
         }
     </style>
 </head>
@@ -481,104 +572,77 @@
         </div>
     </div>
 
-    <!-- Selector de Mes y Año -->
+    <!-- Selector de Mes y Año UNIFICADO -->
     <div class="controls">
-        <div class="campo">
-            <label>📅 Mes</label>
-            <select id="selectorMes">
-                <option value="0">Enero</option>
-                <option value="1">Febrero</option>
-                <option value="2">Marzo</option>
-                <option value="3">Abril</option>
-                <option value="4">Mayo</option>
-                <option value="5">Junio</option>
-                <option value="6" selected>Julio</option>
-                <option value="7">Agosto</option>
-                <option value="8">Septiembre</option>
-                <option value="9">Octubre</option>
-                <option value="10">Noviembre</option>
-                <option value="11">Diciembre</option>
-            </select>
-        </div>
-        <div class="campo">
-            <label>📅 Año</label>
-            <select id="selectorAnio">
-                <option value="2026" selected>2026</option>
-                <option value="2027">2027</option>
+        <div class="campo" style="flex:2;">
+            <label>📅 Período</label>
+            <select id="selectorPeriodo">
+                <!-- Generado por JavaScript -->
             </select>
         </div>
         <div class="campo" style="flex:1;">
-            <label>📌 Mes actual</label>
-            <input type="text" id="mesActualDisplay" value="Julio 2026" readonly>
+            <label>📍 Región</label>
+            <select id="selectorRegion">
+                <option value="arequipa" selected>Arequipa</option>
+                <option value="otras">Otras</option>
+            </select>
+        </div>
+        <div class="campo" style="flex:1;">
+            <label>💰 Salario Diario</label>
+            <input type="number" id="salarioDiario" value="85" step="1" min="0">
         </div>
     </div>
 
-    <!-- Datos fijos (EDITABLES) -->
+    <!-- Datos fijos - MÁS COMPACTOS -->
     <div class="grid-3">
         <div class="campo">
             <label>👤 Trabajador</label>
-            <input type="text" id="nombreTrabajador" value="MANRIQUE MONZON, PAUL EMERSON">
+            <input type="text" id="nombreTrabajador" value="MANRIQUE MONZON, PAUL EMERSON" style="font-size:0.75rem;">
         </div>
         <div class="campo">
             <label>📌 DNI</label>
             <input type="text" id="dni" value="80294954">
         </div>
         <div class="campo">
-            <label>💰 Salario Diario (S/)</label>
-            <input type="number" id="salarioDiario" value="85" step="1" min="0">
-        </div>
-        <div class="campo">
-            <label>👶 Asignación Familiar (S/) <span class="info">(total quincena)</span></label>
+            <label>👶 Asignación Familiar</label>
             <input type="number" id="asignacionFamiliarTotal" value="56.50" step="0.01" min="0">
         </div>
         <div class="campo">
-            <label>🏢 Tipo de descuento</label>
+            <label>🏢 Descuento</label>
             <select id="tipoDescuento">
                 <option value="onp" selected>ONP (13%)</option>
                 <option value="afp">AFP (10%)</option>
                 <option value="sin">Sin descuento</option>
             </select>
         </div>
-        <div class="campo">
-            <label>📍 Región</label>
-            <select id="selectorRegion">
-                <option value="arequipa" selected>Arequipa (con feriado regional)</option>
-                <option value="otras">Otras regiones (sin feriado regional)</option>
-            </select>
-        </div>
     </div>
 
-    <!-- CAMPO DE HORAS ACUMULADAS DE QUINCENA ANTERIOR -->
-    <div class="grid-3" style="background:#fff8e1; border-radius:12px; padding:12px 16px; border:2px solid #ffb74d; margin-bottom:16px;">
+    <!-- HORAS ACUMULADAS - VERSIÓN COMPACTA -->
+    <div class="horas-acumuladas-container">
         <div class="campo">
-            <label>📦 Horas Extras Acumuladas (Quincena Anterior) <span class="info">(29 y 30 del mes anterior)</span></label>
-            <input type="number" id="horasAcumuladasQuincena" value="9.5" step="0.5" min="0" class="acumulado">
+            <label>📦 Horas Acumuladas</label>
+            <input type="number" id="horasAcumuladasQuincena" value="9.5" step="0.5" min="0">
         </div>
-        <div class="campo" style="justify-content:flex-end;">
-            <label style="color:#e65100; font-weight:700;">⏳ Estas horas se suman al cálculo actual</label>
-        </div>
-        <div class="campo" style="justify-content:flex-end;">
-            <label style="color:#e65100; font-weight:700; font-size:0.7rem;">Ejemplo: 9.5h (4.75h + 4.75h)</label>
-        </div>
+        <span class="info-texto">⏳ Se suman al cálculo (29 y 30 del mes anterior)</span>
     </div>
 
-    <!-- Leyenda -->
-    <div class="leyenda">
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Domingo (1ra Q.)</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Domingo (2da Q.)</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#ffebee;border-color:#ef5350;"></span> Feriado Nacional</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#f3e5f5;border-color:#ab47bc;"></span> Feriado Arequipa</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#f0f7ff;border-color:#90caf9;"></span> 2da Quincena</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#e8f5e9;border-color:#66bb6a;"></span> Semana Cerrada</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff8e1;border-color:#e65100;"></span> Horas Acumuladas</span>
-        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#1e88e5;"></span> ✅ Sábado = Extras</span>
+    <!-- LEYENDA COMPACTA (reemplaza a la leyenda completa) -->
+    <div class="leyenda-compacta">
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Dom 1ra</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Dom 2da</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#ffebee;border-color:#ef5350;"></span> Fer.Nac</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#f3e5f5;border-color:#ab47bc;"></span> Fer.Are</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#f0f7ff;border-color:#90caf9;"></span> 2da Q</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e8f5e9;border-color:#66bb6a;"></span> Sem.Cer</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#fff8e1;border-color:#e65100;"></span> Acum</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#1e88e5;"></span> ✅ Sáb=Ext</span>
     </div>
 
     <!-- FILTROS DE QUINCENA -->
     <div class="filtros-quincena">
-        <button class="btn-filtro activo" data-filtro="ambas" id="filtroAmbas">📅 Ambas quincenas</button>
-        <button class="btn-filtro primera" data-filtro="primera" id="filtroPrimera">📅 1ra Quincena (1-15)</button>
-        <button class="btn-filtro segunda" data-filtro="segunda" id="filtroSegunda">📅 2da Quincena (16-31)</button>
+        <button class="btn-filtro activo" data-filtro="ambas" id="filtroAmbas">📅 Ambas</button>
+        <button class="btn-filtro primera" data-filtro="primera" id="filtroPrimera">📅 1ra (1-15)</button>
+        <button class="btn-filtro segunda" data-filtro="segunda" id="filtroSegunda">📅 2da (16-31)</button>
     </div>
 
     <!-- Registro de horas día a día -->
@@ -594,13 +658,13 @@
     <!-- Botones -->
     <div class="btn-group">
         <button class="btn btn-primary" id="calcularBtn">🧮 Calcular</button>
-        <button class="btn btn-danger" id="limpiarBtn">🗑️ Limpiar todas las horas</button>
-        <button class="btn btn-success" id="cargarBoletaBtn">📄 Cargar datos de boleta</button>
+        <button class="btn btn-danger" id="limpiarBtn">🗑️ Limpiar</button>
+        <button class="btn btn-success" id="cargarBoletaBtn">📄 Cargar boleta</button>
     </div>
 
     <!-- Resultados -->
     <div class="resultados" id="resultadosBox">
-        <h3>📊 Resumen de pago - <span id="tituloMesResultado">Julio 2026</span></h3>
+        <h3>📊 Resumen - <span id="tituloMesResultado">Julio 2026</span></h3>
         <div id="detalleResultados">
             <div class="fila-resultado">
                 <span class="concepto">💰 Haber Básico</span>
@@ -618,23 +682,23 @@
                 <span class="concepto">🕒 Horas Extras 35%</span>
                 <span class="monto" id="horasExtras35Result">S/ 0.00</span>
             </div>
-            <div class="fila-resultado" style="background:#fff8e1; border-radius:8px; padding:6px 8px; margin:4px 0;">
-                <span class="concepto">📦 Horas Acumuladas (quincena anterior)</span>
+            <div class="fila-resultado" style="background:#fff8e1; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">📦 Horas Acumuladas</span>
                 <span class="monto acumulado" id="horasAcumuladasMostrar">0.0 hrs</span>
             </div>
-            <div class="fila-resultado" style="background:#e8f5e9; border-radius:8px; padding:6px 8px; margin:4px 0;">
-                <span class="concepto">🗓️ Salario Dominical (8.33% recargo)</span>
+            <div class="fila-resultado" style="background:#e8f5e9; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">🗓️ Salario Dominical</span>
                 <span class="monto" id="dominicalResult">S/ 0.00</span>
             </div>
-            <div class="fila-resultado" style="background:#ffebee; border-radius:8px; padding:6px 8px; margin:4px 0;">
-                <span class="concepto">🎉 Pago por Feriado (Nacional)</span>
+            <div class="fila-resultado" style="background:#ffebee; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">🎉 Feriado Nacional</span>
                 <span class="monto" id="feriadoNacionalResult">S/ 0.00</span>
             </div>
-            <div class="fila-resultado" style="background:#f3e5f5; border-radius:8px; padding:6px 8px; margin:4px 0;">
-                <span class="concepto">🎉 Pago por Feriado (Arequipa)</span>
+            <div class="fila-resultado" style="background:#f3e5f5; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">🎉 Feriado Arequipa</span>
                 <span class="monto" id="feriadoArequipaResult">S/ 0.00</span>
             </div>
-            <div class="fila-resultado" style="border-top: 2px solid #b2cbd9; margin-top: 6px; padding-top: 10px;">
+            <div class="fila-resultado" style="border-top: 2px solid #b2cbd9; margin-top: 4px; padding-top: 8px;">
                 <span class="concepto" style="font-weight:700;">📈 TOTAL REMUNERACIONES</span>
                 <span class="monto" id="totalRemuneracionesResult">S/ 0.00</span>
             </div>
@@ -643,33 +707,33 @@
                 <span class="monto descuento" id="descuentoResult">- S/ 0.00</span>
             </div>
             <div class="fila-resultado">
-                <span class="concepto">🔻 Retención 5ta Categoría</span>
+                <span class="concepto">🔻 Retención 5ta</span>
                 <span class="monto descuento" id="retencion5taResult">- S/ 0.00</span>
             </div>
             <div class="fila-resultado">
-                <span class="concepto">🏥 Aporte ESSALUD (9%)</span>
+                <span class="concepto">🏥 ESSALUD (9%)</span>
                 <span class="monto aporte" id="essaludResult">S/ 0.00</span>
             </div>
             <div class="fila-resultado">
-                <span class="concepto">🏭 Aporte SENATI (0.75%)</span>
+                <span class="concepto">🏭 SENATI (0.75%)</span>
                 <span class="monto aporte" id="senatiResult">S/ 0.00</span>
             </div>
-            <div class="fila-resultado" style="border-top: 3px solid #1b5e7c; margin-top: 10px; padding-top: 12px;">
-                <span class="concepto" style="font-weight:700; font-size:1.1rem;">💵 NETO A PAGAR</span>
+            <div class="fila-resultado" style="border-top: 3px solid #1b5e7c; margin-top: 8px; padding-top: 10px;">
+                <span class="concepto" style="font-weight:700; font-size:1rem;">💵 NETO A PAGAR</span>
                 <span class="monto total" id="netoResult">S/ 0.00</span>
             </div>
         </div>
     </div>
 
     <div class="nota-legal">
-        <strong>⚖️ Base legal:</strong> D.S. 001-98-TR · Horas extras 25% y 35% (D.Leg. 854) · 
-        ONP 13% · ESSALUD 9% · SENATI 0.75% · Retención 5ta 1.96% ·
-        <span class="badge">Actualizado 2026</span>
-        <span class="badge-acumulado">📦 Horas acumuladas</span>
+        <strong>⚖️ Base legal:</strong> D.S. 001-98-TR · Horas extras 25% y 35% · 
+        ONP 13% · ESSALUD 9% · SENATI 0.75% · Retención 5ta 1.96%
+        <span class="badge">2026</span>
+        <span class="badge-acumulado">📦 Acumuladas</span>
         <br>
-        <strong>📌 Sábados:</strong> Marca el checkbox <strong>"✅ Sábado = Extras"</strong> para confirmar que la semana fue <strong>cerrada</strong>.
+        <strong>📌 Sábados:</strong> Marca <strong>"✅ Sáb=Ext"</strong> para confirmar semana cerrada.
         <br>
-        <strong>📌 Horas Acumuladas:</strong> Corresponde a las horas extras de los días <strong>29 y 30</strong> (o 30 y 31) de la quincena anterior.
+        <strong>📌 Horas Acumuladas:</strong> Corresponde a días 29 y 30 (o 30 y 31) de la quincena anterior.
     </div>
 </div>
 
@@ -701,10 +765,8 @@
         const salarioDiario = document.getElementById('salarioDiario');
         const asignacionFamiliarTotal = document.getElementById('asignacionFamiliarTotal');
         const tipoDescuento = document.getElementById('tipoDescuento');
-        const selectorMes = document.getElementById('selectorMes');
-        const selectorAnio = document.getElementById('selectorAnio');
+        const selectorPeriodo = document.getElementById('selectorPeriodo');
         const selectorRegion = document.getElementById('selectorRegion');
-        const mesActualDisplay = document.getElementById('mesActualDisplay');
         const tituloMes = document.getElementById('tituloMes');
         const tituloMesResultado = document.getElementById('tituloMesResultado');
 
@@ -735,6 +797,41 @@
         let diasEnMes = 31;
         let primerDiaSemana = 3;
         let filtroActual = 'ambas';
+
+        // ===== GENERAR OPCIONES DEL PERÍODO UNIFICADO =====
+        function generarOpcionesPeriodo() {
+            const select = selectorPeriodo;
+            select.innerHTML = '';
+            const fechaActual = new Date();
+            const añoActual = fechaActual.getFullYear();
+            const mesActual = fechaActual.getMonth();
+            
+            // Generar desde hace 24 meses hasta el mes actual
+            for (let i = 24; i >= 0; i--) {
+                const fecha = new Date(añoActual, mesActual - i, 1);
+                const año = fecha.getFullYear();
+                const mes = fecha.getMonth();
+                const nombreMes = NOMBRES_MESES[mes];
+                const valor = `${año}-${String(mes + 1).padStart(2, '0')}`;
+                const opcion = document.createElement('option');
+                opcion.value = valor;
+                opcion.textContent = `${nombreMes} ${año}`;
+                select.appendChild(opcion);
+            }
+            
+            // Seleccionar Julio 2026 por defecto
+            select.value = '2026-07';
+        }
+
+        // ===== OBTENER MES Y AÑO DEL SELECTOR UNIFICADO =====
+        function obtenerMesAnioDesdePeriodo() {
+            const valor = selectorPeriodo.value;
+            const partes = valor.split('-');
+            return {
+                mes: parseInt(partes[1]) - 1,
+                anio: parseInt(partes[0])
+            };
+        }
 
         function getDiasEnMes(mes, anio) {
             return new Date(anio, mes + 1, 0).getDate();
@@ -796,13 +893,13 @@
 
         function generarDias() {
             diasGrid.innerHTML = '';
-            mesActual = parseInt(selectorMes.value);
-            anioActual = parseInt(selectorAnio.value);
+            const periodo = obtenerMesAnioDesdePeriodo();
+            mesActual = periodo.mes;
+            anioActual = periodo.anio;
             diasEnMes = getDiasEnMes(mesActual, anioActual);
             primerDiaSemana = getPrimerDiaSemana(mesActual, anioActual);
 
             const nombreMes = NOMBRES_MESES[mesActual];
-            mesActualDisplay.value = `${nombreMes} ${anioActual}`;
             tituloMes.textContent = `${nombreMes} ${anioActual}`;
             tituloMesResultado.textContent = `${nombreMes} ${anioActual}`;
 
@@ -864,7 +961,7 @@
 
                     const checkLabel = document.createElement('label');
                     checkLabel.htmlFor = `domingo_check_${i}`;
-                    checkLabel.textContent = '✅ Dominical';
+                    checkLabel.textContent = '✅ Dom';
 
                     checkDiv.appendChild(checkbox);
                     checkDiv.appendChild(checkLabel);
@@ -884,7 +981,7 @@
 
                     const checkLabel = document.createElement('label');
                     checkLabel.htmlFor = `sabado_check_${i}`;
-                    checkLabel.textContent = '✅ Sábado = Extras';
+                    checkLabel.textContent = '✅ Sáb=Ext';
 
                     checkDiv.appendChild(checkbox);
                     checkDiv.appendChild(checkLabel);
@@ -982,12 +1079,8 @@
                 const esFerAreq = esFeriadoArequipa(i, mesActual);
                 const idxDia = (primerDiaSemana + i - 1) % 7;
 
-                // ⚠️ DÍAS 14 y 15: NO se pagan (se acumulan)
                 const esUltimoDia = (mesActual === 6 && (i === 14 || i === 15));
 
-                // =============================================
-                // 1. CONTAR DÍAS LABORADOS (SOLO días 1-13)
-                // =============================================
                 if (!esUltimoDia) {
                     if (esSab) {
                         diasLaborados++;
@@ -998,9 +1091,6 @@
                     }
                 }
 
-                // =============================================
-                // 2. CONTAR DOMINGOS DOMINICALES
-                // =============================================
                 if (esDom) {
                     const checkbox = document.getElementById(`domingo_check_${i}`);
                     if (checkbox && checkbox.checked) {
@@ -1008,9 +1098,6 @@
                     }
                 }
 
-                // =============================================
-                // 3. CALCULAR HORAS EXTRAS (SOLO días 1-13)
-                // =============================================
                 if (!esUltimoDia) {
                     if (esSab) {
                         const sabadoCheck = document.getElementById(`sabado_check_${i}`);
@@ -1032,7 +1119,6 @@
                             }
                         }
                     } else if (idxDia >= 0 && idxDia <= 4) {
-                        // LUNES A VIERNES
                         const sabadoCheck = document.getElementById(`sabado_check_${i + (5 - idxDia)}`);
                         const esSabadoExtra = sabadoCheck && sabadoCheck.checked;
 
@@ -1053,14 +1139,8 @@
                 }
             }
 
-            // =============================================
-            // 4. SUMAR HORAS ACUMULADAS
-            // =============================================
             const montoHorasAcumuladas = horasAcumuladas * (valorHora * 1.35);
 
-            // =============================================
-            // 5. CÁLCULO DE MONTOS
-            // =============================================
             const haberBasico = salarioDia * diasLaborados;
             const asignacionFamiliar = asignacionFija;
             const montoExtras25 = valorHora * 1.25 * horasExtras25;
@@ -1074,9 +1154,6 @@
 
             const totalRemuneraciones = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical + pagoFeriadoNacional + pagoFeriadoArequipa + montoHorasAcumuladas;
 
-            // =============================================
-            // 6. DESCUENTOS
-            // =============================================
             let porcentajeDescuento = 0;
             const tipo = tipoDescuento.value;
             if (tipo === 'afp') porcentajeDescuento = 0.10;
@@ -1089,7 +1166,6 @@
             const senati = totalRemuneraciones * 0.0075;
             const neto = totalRemuneraciones - descuento - retencion5ta - essalud - senati;
 
-            // Mostrar resultados
             haberBasicoResult.textContent = `S/ ${haberBasico.toFixed(2)}`;
             asignacionResult.textContent = `S/ ${asignacionFamiliar.toFixed(2)}`;
             horasExtras25Result.textContent = `S/ ${montoExtras25.toFixed(2)} (${horasExtras25.toFixed(1)} hrs)`;
@@ -1167,11 +1243,7 @@
         filtroPrimera.addEventListener('click', function() { aplicarFiltro('primera'); });
         filtroSegunda.addEventListener('click', function() { aplicarFiltro('segunda'); });
 
-        selectorMes.addEventListener('change', function() {
-            generarDias();
-            limpiarHoras();
-        });
-        selectorAnio.addEventListener('change', function() {
+        selectorPeriodo.addEventListener('change', function() {
             generarDias();
             limpiarHoras();
         });
@@ -1191,6 +1263,8 @@
             }
         });
 
+        // Inicializar
+        generarOpcionesPeriodo();
         generarDias();
         limpiarHoras();
     })();
