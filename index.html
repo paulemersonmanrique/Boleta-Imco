@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boleta Virtual IMCO - CORREGIDA</title>
+    <title>Boleta Virtual - Sistema Completo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             background: #eef4fa;
@@ -36,14 +32,9 @@
             padding-bottom: 10px;
             margin-bottom: 12px;
         }
-        .header h1 { font-size: 1.3rem;
-            color: #0b2b40; }
-        .header .empresa { text-align: right;
-            color: #1f5a7a;
-            font-weight: 600;
-            font-size: 0.8rem; }
+        .header h1 { font-size: 1.3rem; color: #0b2b40; }
+        .header .empresa { text-align: right; color: #1f5a7a; font-weight: 600; font-size: 0.8rem; }
         
-        /* CONTROLES UNIFICADOS */
         .controls {
             display: flex;
             gap: 8px;
@@ -54,9 +45,7 @@
             padding: 8px 12px;
             border-radius: 12px;
         }
-        .controls .campo {
-            flex: 0 1 auto;
-        }
+        .controls .campo { flex: 0 1 auto; }
         
         .grid-3 {
             display: grid;
@@ -103,16 +92,7 @@
             border-style: dashed;
             color: #004466;
         }
-        .campo input.acumulado {
-            background: #fff8e1;
-            border-color: #ffb74d;
-            font-weight: 700;
-            color: #e65100;
-            max-width: 70px;
-            text-align: center;
-        }
 
-        /* CONTENEDOR HORAS ACUMULADAS - COMPACTO */
         .horas-acumuladas-container {
             background: #fff8e1;
             border-radius: 8px;
@@ -124,9 +104,7 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        .horas-acumuladas-container .campo {
-            flex: 0 1 auto;
-        }
+        .horas-acumuladas-container .campo { flex: 0 1 auto; }
         .horas-acumuladas-container .campo input {
             max-width: 70px;
             text-align: center;
@@ -141,10 +119,7 @@
             font-weight: 600;
         }
 
-        /* LEYENDA OCULTA - Reemplazada por versión compacta */
-        .leyenda {
-            display: none !important;
-        }
+        .leyenda { display: none !important; }
         .leyenda-compacta {
             display: flex;
             gap: 6px;
@@ -184,9 +159,21 @@
             gap: 8px;
             flex-wrap: wrap;
         }
+        .seccion-dias h3 .info-sistema {
+            font-size: 0.65rem;
+            font-weight: 400;
+            color: #5f7f94;
+        }
+        .seccion-dias h3 .badge-acumula {
+            background: #e65100;
+            color: white;
+            padding: 1px 8px;
+            border-radius: 30px;
+            font-size: 0.6rem;
+        }
         .dias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 4px;
         }
         .dia-item {
@@ -202,6 +189,18 @@
             transition: all 0.3s ease;
         }
         .dia-item.oculto { display: none; }
+        .dia-item.acumula {
+            border-color: #e65100;
+            background: #fff8e1;
+        }
+        .dia-item.acumula label {
+            color: #e65100;
+        }
+        .dia-item.acumula .hora-efectiva {
+            background: #fff3e0;
+            border-color: #e65100;
+            color: #e65100;
+        }
         .dia-item label {
             font-size: 0.55rem;
             font-weight: 600;
@@ -217,14 +216,28 @@
             border-radius: 20px;
             font-size: 0.5rem;
         }
+        .dia-item label .acumula-badge {
+            background: #e65100;
+            color: white;
+            padding: 0 4px;
+            border-radius: 10px;
+            font-size: 0.45rem;
+        }
+        .dia-item .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 2px;
+        }
         .dia-item input[type="number"] {
             padding: 2px 2px;
             border: 2px solid #dce8f2;
             border-radius: 5px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             width: 100%;
-            max-width: 45px;
-            min-width: 32px;
+            max-width: 60px;
+            min-width: 45px;
             text-align: center;
             font-weight: 600;
             background: white;
@@ -243,8 +256,38 @@
             box-shadow: 0 0 0 3px rgba(44, 122, 160, 0.1);
             outline: none;
         }
+        .dia-item .hora-efectiva {
+            font-size: 0.55rem;
+            color: #2e7d5e;
+            font-weight: 700;
+            background: #e8f5e9;
+            padding: 1px 6px;
+            border-radius: 10px;
+            border: 1px solid #66bb6a;
+            width: 100%;
+            text-align: center;
+        }
+        .dia-item .hora-efectiva.sabado {
+            background: #e3f2fd;
+            border-color: #64b5f6;
+            color: #0d47a1;
+        }
+        .dia-item .hora-efectiva.feriado {
+            background: #ffebee;
+            border-color: #ef5350;
+            color: #c62828;
+        }
+        .dia-item .hora-efectiva.domingo {
+            background: #fff3e0;
+            border-color: #ffb74d;
+            color: #e65100;
+        }
+        .dia-item .hora-efectiva.acumulada {
+            background: #fff3e0;
+            border-color: #e65100;
+            color: #e65100;
+        }
         
-        /* ESTILOS DE COLOR PARA DÍAS ESPECIALES - SE MANTIENEN PARA FUNCIONALIDAD */
         .dia-item input[type="number"].domingo.primera-quincena {
             background: #fff3e0;
             border-color: #ffb74d;
@@ -346,26 +389,20 @@
             background: white;
             color: #17445c;
         }
-        .filtros-quincena .btn-filtro:hover {
-            background: #eef6fb;
-        }
+        .filtros-quincena .btn-filtro:hover { background: #eef6fb; }
         .filtros-quincena .btn-filtro.activo {
             background: #1b5e7c;
             color: white;
             border-color: #1b5e7c;
             box-shadow: 0 4px 12px rgba(27, 94, 124, 0.3);
         }
-        .filtros-quincena .btn-filtro.primera {
-            border-color: #ffb74d;
-        }
+        .filtros-quincena .btn-filtro.primera { border-color: #ffb74d; }
         .filtros-quincena .btn-filtro.primera.activo {
             background: #ffb74d;
             border-color: #ff9800;
             color: #4a2800;
         }
-        .filtros-quincena .btn-filtro.segunda {
-            border-color: #64b5f6;
-        }
+        .filtros-quincena .btn-filtro.segunda { border-color: #64b5f6; }
         .filtros-quincena .btn-filtro.segunda.activo {
             background: #64b5f6;
             border-color: #1e88e5;
@@ -397,34 +434,19 @@
             color: white;
             box-shadow: 0 4px 14px rgba(27, 94, 124, 0.3);
         }
-        .btn-primary:hover {
-            background: #124b66;
-            transform: scale(1.01);
-        }
-        .btn-secondary {
-            background: white;
-            color: #17445c;
-            border: 2px solid #b6d2e3;
-        }
-        .btn-secondary:hover {
-            background: #eef6fb;
-        }
+        .btn-primary:hover { background: #124b66; transform: scale(1.01); }
         .btn-success {
             background: #2e7d5e;
             color: white;
             border: 2px solid #2e7d5e;
         }
-        .btn-success:hover {
-            background: #1e5f45;
-        }
+        .btn-success:hover { background: #1e5f45; }
         .btn-danger {
             background: #c62828;
             color: white;
             border: 2px solid #c62828;
         }
-        .btn-danger:hover {
-            background: #b71c1c;
-        }
+        .btn-danger:hover { background: #b71c1c; }
 
         .resultados {
             margin-top: 10px;
@@ -445,9 +467,7 @@
             border-bottom: 1px solid rgba(0, 50, 70, 0.06);
             font-size: 0.8rem;
         }
-        .fila-resultado:last-child {
-            border-bottom: none;
-        }
+        .fila-resultado:last-child { border-bottom: none; }
         .fila-resultado .concepto {
             font-weight: 500;
             color: #144c66;
@@ -464,17 +484,20 @@
             padding: 0 12px;
             border-radius: 30px;
         }
-        .fila-resultado .monto.descuento {
-            color: #a1302b;
-        }
-        .fila-resultado .monto.aporte {
-            color: #2d6f4f;
-        }
+        .fila-resultado .monto.descuento { color: #a1302b; }
         .fila-resultado .monto.acumulado {
             color: #e65100;
             background: #fff3e0;
             padding: 0 8px;
             border-radius: 20px;
+        }
+        .fila-resultado .monto.acumulado-destacado {
+            color: #e65100;
+            background: #fff3e0;
+            padding: 0 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         .nota-legal {
@@ -485,11 +508,9 @@
             border: 1px solid #c4dae9;
             font-size: 0.7rem;
             color: #1b4055;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        .nota-legal strong {
-            color: #003153;
-        }
+        .nota-legal strong { color: #003153; }
         .badge {
             background: #003153;
             color: white;
@@ -507,63 +528,35 @@
             margin-left: 4px;
         }
 
-        /* OCULTAR CAMPO DE MES ACTUAL */
-        #mesActualDisplay {
-            display: none !important;
-        }
+        #mesActualDisplay { display: none !important; }
 
         @media (max-width: 700px) {
             .container { padding: 10px; }
-            .grid-3 { grid-template-columns: 1fr;
-                gap: 6px; }
-            .dias-grid { grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-                gap: 3px; }
-            .dia-item input[type="number"] { max-width: 40px;
-                min-width: 28px;
-                font-size: 0.65rem; }
+            .grid-3 { grid-template-columns: 1fr; gap: 6px; }
+            .dias-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 3px; }
+            .dia-item input[type="number"] { max-width: 45px; min-width: 35px; font-size: 0.65rem; }
             .dia-item { padding: 2px 2px 3px 2px; }
             .dia-item label { font-size: 0.5rem; }
+            .dia-item .hora-efectiva { font-size: 0.5rem; }
             .dia-item .domingo-check,
             .dia-item .sabado-check { font-size: 0.45rem; }
             .dia-item .domingo-check input[type="checkbox"],
-            .dia-item .sabado-check input[type="checkbox"] { width: 9px;
-                height: 9px; }
-            .btn { flex: 1 1 100%;
-                font-size: 0.75rem;
-                padding: 6px 14px; }
-            .header { flex-direction: column;
-                align-items: flex-start;
-                gap: 4px; }
+            .dia-item .sabado-check input[type="checkbox"] { width: 9px; height: 9px; }
+            .btn { flex: 1 1 100%; font-size: 0.75rem; padding: 6px 14px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 4px; }
             .header .empresa { text-align: left; }
-            .filtros-quincena .btn-filtro { flex: 1 1 auto;
-                text-align: center;
-                font-size: 0.65rem;
-                padding: 3px 10px; }
-            .horas-acumuladas-container {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 4px;
-            }
-            .horas-acumuladas-container .campo input {
-                max-width: 100%;
-            }
-            .controls {
-                flex-direction: column;
-            }
-            .controls .campo {
-                width: 100%;
-            }
-            .leyenda-compacta {
-                font-size: 0.55rem;
-                padding: 3px 8px;
-            }
+            .filtros-quincena .btn-filtro { flex: 1 1 auto; text-align: center; font-size: 0.65rem; padding: 3px 10px; }
+            .horas-acumuladas-container { flex-direction: column; align-items: stretch; gap: 4px; }
+            .horas-acumuladas-container .campo input { max-width: 100%; }
+            .controls { flex-direction: column; }
+            .controls .campo { width: 100%; }
+            .leyenda-compacta { font-size: 0.55rem; padding: 3px 8px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header -->
     <div class="header">
         <h1>📋 IMCO SERVICIOS SAC</h1>
         <div class="empresa">
@@ -572,13 +565,11 @@
         </div>
     </div>
 
-    <!-- Selector de Mes y Año UNIFICADO -->
+    <!-- SELECTOR DE FECHA -->
     <div class="controls">
         <div class="campo" style="flex:2;">
             <label>📅 Período</label>
-            <select id="selectorPeriodo">
-                <!-- Generado por JavaScript -->
-            </select>
+            <select id="selectorPeriodo"></select>
         </div>
         <div class="campo" style="flex:1;">
             <label>📍 Región</label>
@@ -593,7 +584,7 @@
         </div>
     </div>
 
-    <!-- Datos fijos - MÁS COMPACTOS -->
+    <!-- DATOS DEL TRABAJADOR -->
     <div class="grid-3">
         <div class="campo">
             <label>👤 Trabajador</label>
@@ -617,16 +608,16 @@
         </div>
     </div>
 
-    <!-- HORAS ACUMULADAS - VERSIÓN COMPACTA -->
+    <!-- HORAS ACUMULADAS -->
     <div class="horas-acumuladas-container">
         <div class="campo">
-            <label>📦 Horas Acumuladas</label>
-            <input type="number" id="horasAcumuladasQuincena" value="9.5" step="0.5" min="0">
+            <label>📦 Horas Acumuladas (quincena anterior)</label>
+            <input type="number" id="horasAcumuladasQuincena" value="0" step="0.5" min="0">
         </div>
-        <span class="info-texto">⏳ Se suman al cálculo (29 y 30 del mes anterior)</span>
+        <span class="info-texto">⏳ Horas acumuladas de días 14-15 o 29-30/30-31 de la quincena anterior</span>
     </div>
 
-    <!-- LEYENDA COMPACTA (reemplaza a la leyenda completa) -->
+    <!-- LEYENDA -->
     <div class="leyenda-compacta">
         <span class="leyenda-item"><span class="leyenda-color" style="background:#fff3e0;border-color:#ffb74d;"></span> Dom 1ra</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#64b5f6;"></span> Dom 2da</span>
@@ -636,33 +627,36 @@
         <span class="leyenda-item"><span class="leyenda-color" style="background:#e8f5e9;border-color:#66bb6a;"></span> Sem.Cer</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#fff8e1;border-color:#e65100;"></span> Acum</span>
         <span class="leyenda-item"><span class="leyenda-color" style="background:#e3f2fd;border-color:#1e88e5;"></span> ✅ Sáb=Ext</span>
+        <span class="leyenda-item"><span class="leyenda-color" style="background:#e65100;border-color:#e65100;"></span> Acumulan (14-15 / 29-31)</span>
     </div>
 
-    <!-- FILTROS DE QUINCENA -->
+    <!-- FILTROS QUINCENA -->
     <div class="filtros-quincena">
         <button class="btn-filtro activo" data-filtro="ambas" id="filtroAmbas">📅 Ambas</button>
         <button class="btn-filtro primera" data-filtro="primera" id="filtroPrimera">📅 1ra (1-15)</button>
         <button class="btn-filtro segunda" data-filtro="segunda" id="filtroSegunda">📅 2da (16-31)</button>
     </div>
 
-    <!-- Registro de horas día a día -->
+    <!-- DIAS DEL MES -->
     <div class="seccion-dias">
         <h3>
             🕒 Horas trabajadas - <span id="tituloMes">Julio 2026</span>
+            <span class="badge-acumula">📦 Días que acumulan</span>
+            <span class="info-sistema">
+                ⚡ Descuento: 0.75h (almuerzo) + 1.5h (sábado) + 0.5h (bonificación)
+            </span>
         </h3>
-        <div class="dias-grid" id="diasGrid">
-            <!-- Se genera con JS -->
-        </div>
+        <div class="dias-grid" id="diasGrid"></div>
     </div>
 
-    <!-- Botones -->
+    <!-- BOTONES -->
     <div class="btn-group">
         <button class="btn btn-primary" id="calcularBtn">🧮 Calcular</button>
         <button class="btn btn-danger" id="limpiarBtn">🗑️ Limpiar</button>
-        <button class="btn btn-success" id="cargarBoletaBtn">📄 Cargar boleta</button>
+        <button class="btn btn-success" id="cargarEjemploBtn">📄 Cargar ejemplo</button>
     </div>
 
-    <!-- Resultados -->
+    <!-- RESULTADOS -->
     <div class="resultados" id="resultadosBox">
         <h3>📊 Resumen - <span id="tituloMesResultado">Julio 2026</span></h3>
         <div id="detalleResultados">
@@ -683,8 +677,12 @@
                 <span class="monto" id="horasExtras35Result">S/ 0.00</span>
             </div>
             <div class="fila-resultado" style="background:#fff8e1; border-radius:6px; padding:4px 6px; margin:2px 0;">
-                <span class="concepto">📦 Horas Acumuladas</span>
+                <span class="concepto">📦 Horas Acumuladas (quincena anterior)</span>
                 <span class="monto acumulado" id="horasAcumuladasMostrar">0.0 hrs</span>
+            </div>
+            <div class="fila-resultado" style="background:#fff3e0; border-radius:6px; padding:4px 6px; margin:2px 0; border:2px solid #e65100;">
+                <span class="concepto" style="font-weight:700; color:#e65100;">📦 Horas a acumular (14-15 / 29-31)</span>
+                <span class="monto acumulado-destacado" id="horasAAcumularResult">0.0 hrs</span>
             </div>
             <div class="fila-resultado" style="background:#e8f5e9; border-radius:6px; padding:4px 6px; margin:2px 0;">
                 <span class="concepto">🗓️ Salario Dominical</span>
@@ -710,14 +708,6 @@
                 <span class="concepto">🔻 Retención 5ta</span>
                 <span class="monto descuento" id="retencion5taResult">- S/ 0.00</span>
             </div>
-            <div class="fila-resultado">
-                <span class="concepto">🏥 ESSALUD (9%)</span>
-                <span class="monto aporte" id="essaludResult">S/ 0.00</span>
-            </div>
-            <div class="fila-resultado">
-                <span class="concepto">🏭 SENATI (0.75%)</span>
-                <span class="monto aporte" id="senatiResult">S/ 0.00</span>
-            </div>
             <div class="fila-resultado" style="border-top: 3px solid #1b5e7c; margin-top: 8px; padding-top: 10px;">
                 <span class="concepto" style="font-weight:700; font-size:1rem;">💵 NETO A PAGAR</span>
                 <span class="monto total" id="netoResult">S/ 0.00</span>
@@ -726,41 +716,49 @@
     </div>
 
     <div class="nota-legal">
-        <strong>⚖️ Base legal:</strong> D.S. 001-98-TR · Horas extras 25% y 35% · 
-        ONP 13% · ESSALUD 9% · SENATI 0.75% · Retención 5ta 1.96%
-        <span class="badge">2026</span>
-        <span class="badge-acumulado">📦 Acumuladas</span>
-        <br>
-        <strong>📌 Sábados:</strong> Marca <strong>"✅ Sáb=Ext"</strong> para confirmar semana cerrada.
-        <br>
-        <strong>📌 Horas Acumuladas:</strong> Corresponde a días 29 y 30 (o 30 y 31) de la quincena anterior.
+        <strong>⚖️ Sistema de horas con acumulación:</strong><br>
+        • <strong>Lunes a Viernes:</strong> 9.5 horas diarias<br>
+        • <strong>Descuento almuerzo:</strong> 0.75h (45 min) por día<br>
+        • <strong>Descuento para sábado:</strong> 1.5h por día<br>
+        • <strong>Bonificación empresa:</strong> 0.5h por día<br>
+        • <strong>Total efectivo:</strong> 7.75h por día (9.5 - 0.75 - 1.5 + 0.5)<br>
+        • <strong>✅ Sáb=Ext:</strong> Marcar para confirmar semana cerrada<br>
+        • <strong>📦 Días que acumulan:</strong> 14-15 (1ra quincena) y 29-30/30-31 (2da quincena)<br>
+        • <strong>Las horas extras</strong> de esos días se acumulan para la siguiente quincena<br>
+        • <strong>Horas Acumuladas:</strong> Se suman a la siguiente quincena como horas extras 35%
     </div>
 </div>
 
 <script>
     (function() {
-        // ===== CONFIGURACIÓN DE FERIADOS POR MES =====
+        // ===== CONFIGURACIÓN DE FERIADOS ACTUALIZADA =====
         const FERIADOS_NACIONALES_POR_MES = {
-            0: [1],
-            1: [],
-            2: [],
-            3: [2, 3],
-            4: [1],
-            5: [29],
-            6: [28, 29],
-            7: [30],
-            8: [],
-            9: [8],
-            10: [1],
-            11: [8, 9, 25]
+            0: [1],                         // Enero: 1
+            1: [],                          // Febrero: sin feriados
+            2: [],                          // Marzo: sin feriados
+            3: [2, 3],                      // Abril: Jueves Santo y Viernes Santo
+            4: [1],                         // Mayo: 1
+            5: [29],                        // Junio: 29
+            6: [23, 28, 29],                // Julio: 23 (Daniel Carrión), 28 y 29 (Independencia)
+            7: [30],                        // Agosto: 30 (Santa Rosa de Lima)
+            8: [],                          // Septiembre: sin feriados
+            9: [8],                         // Octubre: 8 (Combate de Angamos)
+            10: [1],                        // Noviembre: 1 (Todos los Santos)
+            11: [8, 9, 25]                  // Diciembre: 8 (Inmaculada), 9 (Ayacucho), 25 (Navidad)
         };
 
-        const FERIADO_AREQUIPA = 15;
+        const FERIADO_AREQUIPA = 15;        // 15 de agosto (Arequipa)
 
         const NOMBRES_MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         const DIAS_SEMANA = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+        
+        // Constantes del sistema
+        const ALMUERZO = 0.75;
+        const SABADO = 1.5;
+        const BONIFICACION = 0.5;
+        const HORAS_JORNADA = 8;
 
-        // Referencias
+        // ===== REFERENCIAS =====
         const diasGrid = document.getElementById('diasGrid');
         const salarioDiario = document.getElementById('salarioDiario');
         const asignacionFamiliarTotal = document.getElementById('asignacionFamiliarTotal');
@@ -769,9 +767,9 @@
         const selectorRegion = document.getElementById('selectorRegion');
         const tituloMes = document.getElementById('tituloMes');
         const tituloMesResultado = document.getElementById('tituloMesResultado');
-
         const horasAcumuladasQuincena = document.getElementById('horasAcumuladasQuincena');
         const horasAcumuladasMostrar = document.getElementById('horasAcumuladasMostrar');
+        const horasAAcumularResult = document.getElementById('horasAAcumularResult');
 
         const haberBasicoResult = document.getElementById('haberBasicoResult');
         const asignacionResult = document.getElementById('asignacionResult');
@@ -783,114 +781,207 @@
         const totalRemuneracionesResult = document.getElementById('totalRemuneracionesResult');
         const descuentoResult = document.getElementById('descuentoResult');
         const retencion5taResult = document.getElementById('retencion5taResult');
-        const essaludResult = document.getElementById('essaludResult');
-        const senatiResult = document.getElementById('senatiResult');
         const netoResult = document.getElementById('netoResult');
 
-        // Referencias de filtros
         const filtroAmbas = document.getElementById('filtroAmbas');
         const filtroPrimera = document.getElementById('filtroPrimera');
         const filtroSegunda = document.getElementById('filtroSegunda');
 
-        let mesActual = 6;
-        let anioActual = 2026;
-        let diasEnMes = 31;
-        let primerDiaSemana = 3;
-        let filtroActual = 'ambas';
+        // ===== VARIABLES GLOBALES =====
+        let mesActual = 6, anioActual = 2026, diasEnMes = 31, primerDiaSemana = 3, filtroActual = 'ambas';
 
-        // ===== GENERAR OPCIONES DEL PERÍODO UNIFICADO =====
+        // ===== FUNCIÓN GENERAR PERÍODO =====
         function generarOpcionesPeriodo() {
             const select = selectorPeriodo;
             select.innerHTML = '';
-            const fechaActual = new Date();
-            const añoActual = fechaActual.getFullYear();
-            const mesActual = fechaActual.getMonth();
             
-            // Generar desde hace 24 meses hasta el mes actual
-            for (let i = 24; i >= 0; i--) {
-                const fecha = new Date(añoActual, mesActual - i, 1);
-                const año = fecha.getFullYear();
-                const mes = fecha.getMonth();
-                const nombreMes = NOMBRES_MESES[mes];
-                const valor = `${año}-${String(mes + 1).padStart(2, '0')}`;
-                const opcion = document.createElement('option');
-                opcion.value = valor;
-                opcion.textContent = `${nombreMes} ${año}`;
-                select.appendChild(opcion);
+            const añoInicio = 2020;
+            const añoFin = 2035;
+            
+            for (let año = añoInicio; año <= añoFin; año++) {
+                for (let mes = 0; mes < 12; mes++) {
+                    const nombreMes = NOMBRES_MESES[mes];
+                    const valor = `${año}-${String(mes + 1).padStart(2, '0')}`;
+                    const opcion = document.createElement('option');
+                    opcion.value = valor;
+                    opcion.textContent = `${nombreMes} ${año}`;
+                    select.appendChild(opcion);
+                }
             }
             
-            // Seleccionar Julio 2026 por defecto
-            select.value = '2026-07';
+            const fechaActual = new Date();
+            const añoActual = fechaActual.getFullYear();
+            const mesActual = String(fechaActual.getMonth() + 1).padStart(2, '0');
+            const valorActual = `${añoActual}-${mesActual}`;
+            
+            if (añoActual >= añoInicio && añoActual <= añoFin) {
+                select.value = valorActual;
+            } else {
+                select.value = '2020-01';
+            }
         }
 
-        // ===== OBTENER MES Y AÑO DEL SELECTOR UNIFICADO =====
         function obtenerMesAnioDesdePeriodo() {
             const valor = selectorPeriodo.value;
             const partes = valor.split('-');
-            return {
-                mes: parseInt(partes[1]) - 1,
-                anio: parseInt(partes[0])
-            };
+            return { mes: parseInt(partes[1]) - 1, anio: parseInt(partes[0]) };
         }
 
-        function getDiasEnMes(mes, anio) {
-            return new Date(anio, mes + 1, 0).getDate();
+        function getDiasEnMes(mes, anio) { 
+            return new Date(anio, mes + 1, 0).getDate(); 
         }
 
-        function getPrimerDiaSemana(mes, anio) {
-            const dia = new Date(anio, mes, 1).getDay();
-            return dia === 0 ? 6 : dia - 1;
+        function getPrimerDiaSemana(mes, anio) { 
+            const dia = new Date(anio, mes, 1).getDay(); 
+            return dia === 0 ? 6 : dia - 1; 
         }
 
-        function esFeriadoNacional(dia, mes) {
-            const feriados = FERIADOS_NACIONALES_POR_MES[mes] || [];
-            return feriados.includes(dia);
+        function esFeriadoNacional(dia, mes) { 
+            const feriados = FERIADOS_NACIONALES_POR_MES[mes] || []; 
+            return feriados.includes(dia); 
         }
 
-        function esFeriadoArequipa(dia, mes) {
-            const esArequipa = selectorRegion.value === 'arequipa';
-            return esArequipa && mes === 7 && dia === FERIADO_AREQUIPA;
+        function esFeriadoArequipa(dia, mes) { 
+            const esArequipa = selectorRegion.value === 'arequipa'; 
+            return esArequipa && mes === 7 && dia === FERIADO_AREQUIPA; 
         }
 
-        function esDomingo(dia, mes, anio) {
-            const fecha = new Date(anio, mes, dia);
-            return fecha.getDay() === 0;
+        function esDomingo(dia, mes, anio) { 
+            return new Date(anio, mes, dia).getDay() === 0; 
         }
 
-        function esSabado(dia, mes, anio) {
-            const fecha = new Date(anio, mes, dia);
-            return fecha.getDay() === 6;
+        function esSabado(dia, mes, anio) { 
+            return new Date(anio, mes, dia).getDay() === 6; 
         }
 
+        function esDiaAcumula(dia, mes, anio) {
+            const diasMes = getDiasEnMes(mes, anio);
+            if (dia === 14 || dia === 15) return true;
+            if (dia === 29 || dia === 30 || dia === 31) return true;
+            return false;
+        }
+
+        // ===== FUNCIONES DEL SISTEMA =====
         function aplicarFiltro(filtro) {
             filtroActual = filtro;
-
             [filtroAmbas, filtroPrimera, filtroSegunda].forEach(btn => btn.classList.remove('activo'));
             if (filtro === 'ambas') filtroAmbas.classList.add('activo');
             else if (filtro === 'primera') filtroPrimera.classList.add('activo');
             else if (filtro === 'segunda') filtroSegunda.classList.add('activo');
 
-            const items = document.querySelectorAll('.dia-item');
-            items.forEach((item, index) => {
+            document.querySelectorAll('.dia-item').forEach((item, index) => {
                 const dia = index + 1;
-                if (filtro === 'ambas') {
-                    item.classList.remove('oculto');
-                } else if (filtro === 'primera') {
-                    if (dia <= 15) {
-                        item.classList.remove('oculto');
-                    } else {
-                        item.classList.add('oculto');
-                    }
-                } else if (filtro === 'segunda') {
-                    if (dia >= 16) {
-                        item.classList.remove('oculto');
-                    } else {
-                        item.classList.add('oculto');
-                    }
-                }
+                if (filtro === 'ambas') item.classList.remove('oculto');
+                else if (filtro === 'primera') dia <= 15 ? item.classList.remove('oculto') : item.classList.add('oculto');
+                else if (filtro === 'segunda') dia >= 16 ? item.classList.remove('oculto') : item.classList.add('oculto');
             });
         }
 
+        function calcularHorasEfectivas(horas, esSabado, esFeriado, esSemanaCerrada, esAcumula) {
+            if (esFeriado) return horas;
+            
+            let efectivas = horas;
+            
+            if (esSabado) {
+                if (esSemanaCerrada) {
+                    efectivas = horas;
+                } else {
+                    efectivas = horas - ALMUERZO + BONIFICACION;
+                }
+            } else {
+                efectivas = horas - ALMUERZO - SABADO + BONIFICACION;
+            }
+            
+            efectivas = Math.max(efectivas, 0);
+            
+            if (esAcumula) {
+                let normales = Math.min(efectivas, HORAS_JORNADA);
+                return normales;
+            }
+            
+            return efectivas;
+        }
+
+        function getHorasExtrasAcumuladas(horas, esAcumula, esSabado, esFeriado, esSemanaCerrada) {
+            if (!esAcumula || esFeriado) return 0;
+            
+            let efectivas = horas;
+            if (esSabado) {
+                if (esSemanaCerrada) {
+                    efectivas = horas;
+                } else {
+                    efectivas = horas - ALMUERZO + BONIFICACION;
+                }
+            } else {
+                efectivas = horas - ALMUERZO - SABADO + BONIFICACION;
+            }
+            
+            efectivas = Math.max(efectivas, 0);
+            let extras = Math.max(efectivas - HORAS_JORNADA, 0);
+            return extras;
+        }
+
+        function actualizarHoraEfectiva(dia) {
+            const input = document.getElementById(`hora_${dia}`);
+            const efectivaDiv = document.getElementById(`efectiva_${dia}`);
+            if (!input || !efectivaDiv) return;
+
+            const horas = parseFloat(input.value) || 0;
+            const esSab = esSabado(dia, mesActual, anioActual);
+            const esFerNac = esFeriadoNacional(dia, mesActual);
+            const esFerAreq = esFeriadoArequipa(dia, mesActual);
+            const esFeriado = esFerNac || esFerAreq;
+            const esAcumula = esDiaAcumula(dia, mesActual, anioActual);
+
+            let esSemanaCerrada = false;
+            if (esSab) {
+                const sabadoCheck = document.getElementById(`sabado_check_${dia}`);
+                esSemanaCerrada = sabadoCheck && sabadoCheck.checked;
+            }
+
+            let efectivas = calcularHorasEfectivas(horas, esSab, esFeriado, esSemanaCerrada, esAcumula);
+            efectivaDiv.textContent = efectivas.toFixed(2) + ' hrs';
+        }
+
+        function esSemanaCerrada(dia) {
+            const idxDia = (primerDiaSemana + dia - 1) % 7;
+            if (idxDia === 6) return false;
+            const inicioSemana = dia - idxDia;
+            const finSemana = inicioSemana + 5;
+            const sabadoCheck = document.getElementById(`sabado_check_${finSemana}`);
+            if (!sabadoCheck || !sabadoCheck.checked) return false;
+
+            let diasConHoras = 0;
+            for (let i = inicioSemana; i <= finSemana - 1; i++) {
+                if (i < 1 || i > diasEnMes) continue;
+                const input = document.getElementById(`hora_${i}`);
+                if (input && parseFloat(input.value) > 0) {
+                    diasConHoras++;
+                }
+            }
+            return diasConHoras > 0;
+        }
+
+        function actualizarSemanaCerrada() {
+            for (let i = 1; i <= diasEnMes; i++) {
+                const input = document.getElementById(`hora_${i}`);
+                if (!input) continue;
+                const esDom = esDomingo(i, mesActual, anioActual);
+                const esFerNac = esFeriadoNacional(i, mesActual);
+                const esFerAreq = esFeriadoArequipa(i, mesActual);
+                if (esDom || esFerNac || esFerAreq) continue;
+                
+                const esCerrada = esSemanaCerrada(i);
+                if (esCerrada) {
+                    input.classList.add('semana-cerrada');
+                } else {
+                    input.classList.remove('semana-cerrada');
+                }
+                actualizarHoraEfectiva(i);
+            }
+        }
+
+        // ===== GENERAR DÍAS =====
         function generarDias() {
             diasGrid.innerHTML = '';
             const periodo = obtenerMesAnioDesdePeriodo();
@@ -911,20 +1002,36 @@
                 const esSab = esSabado(i, mesActual, anioActual);
                 const esFerNac = esFeriadoNacional(i, mesActual);
                 const esFerAreq = esFeriadoArequipa(i, mesActual);
+                const esAcumula = esDiaAcumula(i, mesActual, anioActual);
                 const esQuincena2 = i >= 16;
                 const idxDia = (primerDiaSemana + i - 1) % 7;
+
+                if (esAcumula) {
+                    div.classList.add('acumula');
+                }
 
                 const label = document.createElement('label');
                 const diaNum = document.createElement('span');
                 diaNum.className = 'dia-num';
                 let etiqueta = DIAS_SEMANA[idxDia];
                 if (esDom) etiqueta = '☀️ Dom';
-                else if (esFerNac) etiqueta = '🎉 Fer.';
-                else if (esFerAreq) etiqueta = '🎉 Areq.';
+                else if (esFerNac) etiqueta = '🎉 Fer.Nac';
+                else if (esFerAreq) etiqueta = '🎉 Fer.Are';
                 diaNum.textContent = etiqueta;
                 label.innerHTML = `${i} `;
                 label.appendChild(diaNum);
+                
+                if (esAcumula) {
+                    const badge = document.createElement('span');
+                    badge.className = 'acumula-badge';
+                    badge.textContent = '📦';
+                    label.appendChild(badge);
+                }
+                
                 div.appendChild(label);
+
+                const inputGroup = document.createElement('div');
+                inputGroup.className = 'input-group';
 
                 const input = document.createElement('input');
                 input.type = 'number';
@@ -937,126 +1044,87 @@
 
                 if (esDom) {
                     input.classList.add('domingo');
-                    if (i <= 15) {
-                        input.classList.add('primera-quincena');
-                    } else {
-                        input.classList.add('segunda-quincena');
-                    }
+                    i <= 15 ? input.classList.add('primera-quincena') : input.classList.add('segunda-quincena');
                 }
-
                 if (esFerNac) input.classList.add('feriado');
                 if (esFerAreq) input.classList.add('feriado-arequipa');
                 if (esQuincena2) input.classList.add('quincena2');
+                
+                inputGroup.appendChild(input);
 
-                div.appendChild(input);
+                const efectivaDiv = document.createElement('div');
+                efectivaDiv.className = 'hora-efectiva';
+                if (esSab) efectivaDiv.classList.add('sabado');
+                if (esFerNac || esFerAreq) efectivaDiv.classList.add('feriado');
+                if (esDom) efectivaDiv.classList.add('domingo');
+                if (esAcumula) efectivaDiv.classList.add('acumulada');
+                efectivaDiv.id = `efectiva_${i}`;
+                efectivaDiv.textContent = '0.0 hrs';
+                inputGroup.appendChild(efectivaDiv);
+
+                div.appendChild(inputGroup);
 
                 if (esDom) {
                     const checkDiv = document.createElement('div');
                     checkDiv.className = 'domingo-check';
-
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = `domingo_check_${i}`;
                     checkbox.checked = false;
-
                     const checkLabel = document.createElement('label');
                     checkLabel.htmlFor = `domingo_check_${i}`;
                     checkLabel.textContent = '✅ Dom';
-
                     checkDiv.appendChild(checkbox);
                     checkDiv.appendChild(checkLabel);
                     div.appendChild(checkDiv);
-
-                    checkbox.addEventListener('change', calcular);
+                    checkbox.addEventListener('change', function() {
+                        actualizarHoraEfectiva(i);
+                        calcular();
+                    });
                 }
 
                 if (esSab) {
                     const checkDiv = document.createElement('div');
                     checkDiv.className = 'sabado-check';
-
                     const checkbox = document.createElement('input');
                     checkbox.type = 'checkbox';
                     checkbox.id = `sabado_check_${i}`;
                     checkbox.checked = false;
-
                     const checkLabel = document.createElement('label');
                     checkLabel.htmlFor = `sabado_check_${i}`;
                     checkLabel.textContent = '✅ Sáb=Ext';
-
                     checkDiv.appendChild(checkbox);
                     checkDiv.appendChild(checkLabel);
                     div.appendChild(checkDiv);
-
                     checkbox.addEventListener('change', function() {
-                        calcular();
+                        actualizarHoraEfectiva(i);
                         actualizarSemanaCerrada();
+                        calcular();
                     });
                 }
+
+                input.addEventListener('input', function() {
+                    actualizarHoraEfectiva(i);
+                    calcular();
+                });
 
                 diasGrid.appendChild(div);
             }
 
             aplicarFiltro(filtroActual);
-            setTimeout(actualizarSemanaCerrada, 50);
+            setTimeout(() => {
+                actualizarSemanaCerrada();
+                for (let i = 1; i <= diasEnMes; i++) {
+                    actualizarHoraEfectiva(i);
+                }
+            }, 50);
         }
 
-        function esSemanaCerrada(dia) {
-            const idxDia = (primerDiaSemana + dia - 1) % 7;
-            if (idxDia === 6) return false;
-
-            const inicioSemana = dia - idxDia;
-            const finSemana = inicioSemana + 5;
-
-            const sabadoCheck = document.getElementById(`sabado_check_${finSemana}`);
-            const esSabadoExtra = sabadoCheck && sabadoCheck.checked;
-
-            if (!esSabadoExtra) {
-                return false;
-            }
-
-            if (inicioSemana < 1) {
-                let diasDisponibles = 0;
-                for (let i = 1; i <= finSemana && i <= diasEnMes; i++) {
-                    const input = document.getElementById(`hora_${i}`);
-                    if (input && parseFloat(input.value) > 0) {
-                        diasDisponibles++;
-                    }
-                }
-                return diasDisponibles > 0;
-            } else {
-                let diasConHoras = 0;
-                for (let i = inicioSemana; i <= finSemana - 1; i++) {
-                    const input = document.getElementById(`hora_${i}`);
-                    if (input && parseFloat(input.value) > 0) {
-                        diasConHoras++;
-                    }
-                }
-                return diasConHoras > 0;
-            }
-        }
-
-        function actualizarSemanaCerrada() {
-            for (let i = 1; i <= diasEnMes; i++) {
-                const input = document.getElementById(`hora_${i}`);
-                if (!input) continue;
-                const esDom = esDomingo(i, mesActual, anioActual);
-                const esFerNac = esFeriadoNacional(i, mesActual);
-                const esFerAreq = esFeriadoArequipa(i, mesActual);
-                if (esDom || esFerNac || esFerAreq) continue;
-                if (esSemanaCerrada(i)) {
-                    input.classList.add('semana-cerrada');
-                } else {
-                    input.classList.remove('semana-cerrada');
-                }
-            }
-        }
-
-        // ===== CÁLCULO PRINCIPAL =====
+        // ===== CÁLCULO =====
         function calcular() {
             const salarioDia = parseFloat(salarioDiario.value) || 0;
             const asignacionFija = parseFloat(asignacionFamiliarTotal.value) || 0;
-            const valorHora = salarioDia / 8;
-
+            const valorHora = salarioDia / HORAS_JORNADA;
             const horasAcumuladas = parseFloat(horasAcumuladasQuincena.value) || 0;
             horasAcumuladasMostrar.textContent = `${horasAcumuladas.toFixed(1)} hrs`;
 
@@ -1066,6 +1134,7 @@
             let domingosLaborados = 0;
             let feriadosNacionalesTrabajados = 0;
             let feriadosArequipaTrabajados = 0;
+            let horasAAcumular = 0;
 
             for (let i = 1; i <= diasEnMes; i++) {
                 const input = document.getElementById(`hora_${i}`);
@@ -1077,69 +1146,43 @@
                 const esSab = esSabado(i, mesActual, anioActual);
                 const esFerNac = esFeriadoNacional(i, mesActual);
                 const esFerAreq = esFeriadoArequipa(i, mesActual);
-                const idxDia = (primerDiaSemana + i - 1) % 7;
+                const esAcumula = esDiaAcumula(i, mesActual, anioActual);
 
-                const esUltimoDia = (mesActual === 6 && (i === 14 || i === 15));
+                let esSemanaCerrada = false;
+                if (esSab) {
+                    const sabadoCheck = document.getElementById(`sabado_check_${i}`);
+                    esSemanaCerrada = sabadoCheck && sabadoCheck.checked;
+                }
 
-                if (!esUltimoDia) {
-                    if (esSab) {
-                        diasLaborados++;
-                    } else if (horas > 0) {
-                        diasLaborados++;
-                        if (esFerNac) feriadosNacionalesTrabajados++;
-                        if (esFerAreq) feriadosArequipaTrabajados++;
-                    }
+                if (esAcumula) {
+                    horasAAcumular += getHorasExtrasAcumuladas(horas, true, esSab, esFerNac || esFerAreq, esSemanaCerrada);
+                }
+
+                let efectivas = calcularHorasEfectivas(horas, esSab, esFerNac || esFerAreq, esSemanaCerrada, esAcumula);
+
+                if (efectivas > 0 && !esDom) {
+                    diasLaborados++;
+                    if (esFerNac) feriadosNacionalesTrabajados++;
+                    if (esFerAreq) feriadosArequipaTrabajados++;
                 }
 
                 if (esDom) {
                     const checkbox = document.getElementById(`domingo_check_${i}`);
-                    if (checkbox && checkbox.checked) {
-                        domingosLaborados++;
-                    }
+                    if (checkbox && checkbox.checked) domingosLaborados++;
                 }
 
-                if (!esUltimoDia) {
-                    if (esSab) {
-                        const sabadoCheck = document.getElementById(`sabado_check_${i}`);
-                        const esSabadoExtra = sabadoCheck && sabadoCheck.checked;
-
-                        if (esSabadoExtra && horas > 0) {
-                            const ext25 = Math.min(horas, 2);
-                            const ext35 = horas - ext25;
-                            horasExtras25 += ext25;
-                            horasExtras35 += ext35;
-                        } else if (horas > 0) {
-                            const normales = Math.min(horas, 8);
-                            let extras = horas - 8;
-                            if (extras > 0) {
-                                const ext25 = Math.min(extras, 2);
-                                const ext35 = extras - ext25;
-                                horasExtras25 += ext25;
-                                horasExtras35 += ext35;
-                            }
-                        }
-                    } else if (idxDia >= 0 && idxDia <= 4) {
-                        const sabadoCheck = document.getElementById(`sabado_check_${i + (5 - idxDia)}`);
-                        const esSabadoExtra = sabadoCheck && sabadoCheck.checked;
-
-                        let horasBase = horas;
-                        if (!esSabadoExtra) {
-                            horasBase = Math.max(0, horas - 1.5);
-                        }
-
-                        const normales = Math.min(horasBase, 8);
-                        let extras = horasBase - 8;
-                        if (extras > 0) {
-                            const ext25 = Math.min(extras, 2);
-                            const ext35 = extras - ext25;
-                            horasExtras25 += ext25;
-                            horasExtras35 += ext35;
-                        }
+                if (!esDom && !esFerNac && !esFerAreq && !esAcumula) {
+                    let extras = efectivas - HORAS_JORNADA;
+                    if (extras > 0) {
+                        const ext25 = Math.min(extras, 2);
+                        horasExtras25 += ext25;
+                        horasExtras35 += extras - ext25;
                     }
                 }
             }
 
-            const montoHorasAcumuladas = horasAcumuladas * (valorHora * 1.35);
+            horasExtras35 += horasAcumuladas;
+            horasAAcumularResult.textContent = `${horasAAcumular.toFixed(1)} hrs`;
 
             const haberBasico = salarioDia * diasLaborados;
             const asignacionFamiliar = asignacionFija;
@@ -1148,23 +1191,20 @@
 
             const RECARGO_DOMINICAL = 1 / 12;
             const dominical = salarioDia * domingosLaborados * (1 + RECARGO_DOMINICAL);
-
             const pagoFeriadoNacional = salarioDia * feriadosNacionalesTrabajados;
             const pagoFeriadoArequipa = salarioDia * feriadosArequipaTrabajados;
 
-            const totalRemuneraciones = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + dominical + pagoFeriadoNacional + pagoFeriadoArequipa + montoHorasAcumuladas;
+            const totalRemuneraciones = haberBasico + asignacionFamiliar + montoExtras25 + montoExtras35 + 
+                                       dominical + pagoFeriadoNacional + pagoFeriadoArequipa;
 
             let porcentajeDescuento = 0;
             const tipo = tipoDescuento.value;
             if (tipo === 'afp') porcentajeDescuento = 0.10;
             else if (tipo === 'onp') porcentajeDescuento = 0.13;
-            else porcentajeDescuento = 0;
 
             const descuento = totalRemuneraciones * porcentajeDescuento;
             const retencion5ta = totalRemuneraciones * 0.0196;
-            const essalud = totalRemuneraciones * 0.09;
-            const senati = totalRemuneraciones * 0.0075;
-            const neto = totalRemuneraciones - descuento - retencion5ta - essalud - senati;
+            const neto = totalRemuneraciones - descuento - retencion5ta;
 
             haberBasicoResult.textContent = `S/ ${haberBasico.toFixed(2)}`;
             asignacionResult.textContent = `S/ ${asignacionFamiliar.toFixed(2)}`;
@@ -1176,77 +1216,68 @@
             totalRemuneracionesResult.textContent = `S/ ${totalRemuneraciones.toFixed(2)}`;
             descuentoResult.textContent = `- S/ ${descuento.toFixed(2)} (${(porcentajeDescuento*100).toFixed(0)}%)`;
             retencion5taResult.textContent = `- S/ ${retencion5ta.toFixed(2)}`;
-            essaludResult.textContent = `S/ ${essalud.toFixed(2)}`;
-            senatiResult.textContent = `S/ ${senati.toFixed(2)}`;
             netoResult.textContent = `S/ ${neto.toFixed(2)}`;
 
             actualizarSemanaCerrada();
         }
 
+        // ===== LIMPIAR Y EJEMPLO =====
         function limpiarHoras() {
             for (let i = 1; i <= diasEnMes; i++) {
                 const input = document.getElementById(`hora_${i}`);
-                if (input) {
-                    input.value = '0';
-                }
+                if (input) input.value = '0';
                 const domingoCheck = document.getElementById(`domingo_check_${i}`);
-                if (domingoCheck) {
-                    domingoCheck.checked = false;
-                }
+                if (domingoCheck) domingoCheck.checked = false;
                 const sabadoCheck = document.getElementById(`sabado_check_${i}`);
-                if (sabadoCheck) {
-                    sabadoCheck.checked = false;
-                }
+                if (sabadoCheck) sabadoCheck.checked = false;
+                actualizarHoraEfectiva(i);
             }
             calcular();
         }
 
-        function cargarBoleta() {
+        function cargarEjemplo() {
             salarioDiario.value = '85';
             asignacionFamiliarTotal.value = '56.50';
             tipoDescuento.value = 'onp';
-            horasAcumuladasQuincena.value = '9.5';
-
-            limpiarHoras();
-
-            const horasEjemplo = {
-                1: 16.0, 2: 11.5, 3: 12.5,
-                6: 16.0, 7: 16.0, 8: 11.5, 9: 11.5, 10: 13.5,
-                13: 16.0, 14: 16.0, 15: 16.0
-            };
-
+            horasAcumuladasQuincena.value = '0';
+            
+            const horasEjemplo = {};
+            for (let i = 1; i <= 13; i++) {
+                horasEjemplo[i] = 8;
+            }
+            horasEjemplo[14] = 16;
+            horasEjemplo[15] = 16;
+            
             for (let i = 1; i <= diasEnMes; i++) {
                 const input = document.getElementById(`hora_${i}`);
                 if (input && horasEjemplo[i] !== undefined) {
                     input.value = horasEjemplo[i];
-                }
-                const domingoCheck = document.getElementById(`domingo_check_${i}`);
-                if (domingoCheck) {
-                    domingoCheck.checked = false;
+                    actualizarHoraEfectiva(i);
                 }
                 const sabadoCheck = document.getElementById(`sabado_check_${i}`);
-                if (sabadoCheck) {
-                    if (i === 4 || i === 11) {
-                        sabadoCheck.checked = true;
-                    }
+                if (sabadoCheck && (i === 4 || i === 11)) {
+                    sabadoCheck.checked = true;
+                    actualizarHoraEfectiva(i);
                 }
             }
+            actualizarSemanaCerrada();
             calcular();
         }
 
         // ===== EVENTOS =====
         document.getElementById('calcularBtn').addEventListener('click', calcular);
         document.getElementById('limpiarBtn').addEventListener('click', limpiarHoras);
-        document.getElementById('cargarBoletaBtn').addEventListener('click', cargarBoleta);
+        document.getElementById('cargarEjemploBtn').addEventListener('click', cargarEjemplo);
 
-        filtroAmbas.addEventListener('click', function() { aplicarFiltro('ambas'); });
-        filtroPrimera.addEventListener('click', function() { aplicarFiltro('primera'); });
-        filtroSegunda.addEventListener('click', function() { aplicarFiltro('segunda'); });
+        filtroAmbas.addEventListener('click', () => aplicarFiltro('ambas'));
+        filtroPrimera.addEventListener('click', () => aplicarFiltro('primera'));
+        filtroSegunda.addEventListener('click', () => aplicarFiltro('segunda'));
 
         selectorPeriodo.addEventListener('change', function() {
             generarDias();
             limpiarHoras();
         });
+        
         selectorRegion.addEventListener('change', function() {
             generarDias();
             limpiarHoras();
@@ -1257,13 +1288,7 @@
         tipoDescuento.addEventListener('change', calcular);
         horasAcumuladasQuincena.addEventListener('input', calcular);
 
-        document.addEventListener('input', function(e) {
-            if (e.target.id && e.target.id.startsWith('hora_')) {
-                calcular();
-            }
-        });
-
-        // Inicializar
+        // ===== INICIALIZAR =====
         generarOpcionesPeriodo();
         generarDias();
         limpiarHoras();
