@@ -499,6 +499,27 @@
             font-weight: 700;
             font-size: 1rem;
         }
+        .fila-resultado .monto.horas {
+            color: #0d47a1;
+            background: #e3f2fd;
+            padding: 0 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .fila-resultado .monto.horas-efectivas {
+            color: #2e7d5e;
+            background: #e8f5e9;
+            padding: 0 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .fila-resultado .monto.horas-ordinarias {
+            color: #e65100;
+            background: #fff8e1;
+            padding: 0 8px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
 
         .nota-legal {
             margin-top: 10px;
@@ -643,7 +664,7 @@
             🕒 Horas trabajadas - <span id="tituloMes">Julio 2026</span>
             <span class="badge-acumula">📦 Días que acumulan</span>
             <span class="info-sistema">
-                ⚡ Descuento: 0.75h (almuerzo) + 1.5h (sábado) + 0.5h (bonificación)
+                ⚡ Descuento: 0.75h (almuerzo) + 1.5h (sábado) | Sábados: solo 0.75h
             </span>
         </h3>
         <div class="dias-grid" id="diasGrid"></div>
@@ -660,6 +681,24 @@
     <div class="resultados" id="resultadosBox">
         <h3>📊 Resumen - <span id="tituloMesResultado">Julio 2026</span></h3>
         <div id="detalleResultados">
+            <!-- TOTAL HORAS TRABAJADAS -->
+            <div class="fila-resultado" style="background:#e3f2fd; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">🕐 Total Horas Trabajadas (ingresadas)</span>
+                <span class="monto horas" id="totalHorasTrabajadasResult">0.0 hrs</span>
+            </div>
+            
+            <!-- TOTAL HORAS EFECTIVAS -->
+            <div class="fila-resultado" style="background:#e8f5e9; border-radius:6px; padding:4px 6px; margin:2px 0;">
+                <span class="concepto">✅ Total Horas Efectivas (con descuentos)</span>
+                <span class="monto horas-efectivas" id="totalHorasEfectivasResult">0.0 hrs</span>
+            </div>
+            
+            <!-- HORAS ORDINARIAS (NUEVO) -->
+            <div class="fila-resultado" style="background:#fff8e1; border-radius:6px; padding:4px 6px; margin:2px 0; border-left: 4px solid #ffb74d;">
+                <span class="concepto">📋 Horas Ordinarias (Lun-Sáb, máx 8h/día)</span>
+                <span class="monto horas-ordinarias" id="horasOrdinariasResult">0.0 hrs</span>
+            </div>
+            
             <div class="fila-resultado">
                 <span class="concepto">💰 Haber Básico</span>
                 <span class="monto" id="haberBasicoResult">S/ 0.00</span>
@@ -717,45 +756,46 @@
 
     <div class="nota-legal">
         <strong>⚖️ Sistema de horas con acumulación:</strong><br>
-        • <strong>Lunes a Viernes:</strong> 9.5 horas diarias<br>
-        • <strong>Descuento almuerzo:</strong> 0.75h (45 min) por día<br>
-        • <strong>Descuento para sábado:</strong> 1.5h por día<br>
-        • <strong>Bonificación empresa:</strong> 0.5h por día<br>
-        • <strong>Total efectivo:</strong> 7.75h por día (9.5 - 0.75 - 1.5 + 0.5)<br>
+        • <strong>Lunes a Viernes:</strong> Descuento de almuerzo 0.75h + descuento de sábado 1.5h<br>
+        • <strong>Sábados:</strong> Solo descuento de almuerzo 0.75h (sin descuento de sábado)<br>
+        • <strong>Semana cerrada (Sáb=Ext):</strong> No se aplican descuentos al sábado<br>
+        • <strong>Regla especial:</strong> Si el acumulado del sábado llega a 7.5h, se redondea a 8h<br>
         • <strong>✅ Sáb=Ext:</strong> Marcar para confirmar semana cerrada<br>
         • <strong>📦 Días que acumulan:</strong> 14-15 (1ra quincena) y 29-30/30-31 (2da quincena)<br>
+        • <strong>Los días que acumulan aplican los mismos descuentos</strong> (0.75h almuerzo + 1.5h sábado)<br>
         • <strong>Las horas extras</strong> de esos días se acumulan para la siguiente quincena<br>
-        • <strong>Horas Acumuladas:</strong> Se suman a la siguiente quincena como horas extras 35%
+        • <strong>Horas Acumuladas:</strong> Se suman a la siguiente quincena como horas extras (25% y 35%)<br>
+        • <strong>Horas Ordinarias:</strong> Solo se cuentan días de Lunes a Sábado (excluye domingos y feriados)
     </div>
 </div>
 
 <script>
     (function() {
-        // ===== CONFIGURACIÓN DE FERIADOS ACTUALIZADA =====
+        // ===== CONFIGURACIÓN DE FERIADOS =====
         const FERIADOS_NACIONALES_POR_MES = {
-            0: [1],                         // Enero: 1
-            1: [],                          // Febrero: sin feriados
-            2: [],                          // Marzo: sin feriados
-            3: [2, 3],                      // Abril: Jueves Santo y Viernes Santo
-            4: [1],                         // Mayo: 1
-            5: [29],                        // Junio: 29
-            6: [23, 28, 29],                // Julio: 23 (Daniel Carrión), 28 y 29 (Independencia)
-            7: [30],                        // Agosto: 30 (Santa Rosa de Lima)
-            8: [],                          // Septiembre: sin feriados
-            9: [8],                         // Octubre: 8 (Combate de Angamos)
-            10: [1],                        // Noviembre: 1 (Todos los Santos)
-            11: [8, 9, 25]                  // Diciembre: 8 (Inmaculada), 9 (Ayacucho), 25 (Navidad)
+            0: [1],
+            1: [],
+            2: [],
+            3: [2, 3],
+            4: [1],
+            5: [29],
+            6: [23, 28, 29],
+            7: [30],
+            8: [],
+            9: [8],
+            10: [1],
+            11: [8, 9, 25]
         };
 
-        const FERIADO_AREQUIPA = 15;        // 15 de agosto (Arequipa)
+        const FERIADO_AREQUIPA = 15;
 
         const NOMBRES_MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         const DIAS_SEMANA = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
         
-        // Constantes del sistema
+        // ===== CONSTANTES DEL SISTEMA =====
         const ALMUERZO = 0.75;
         const SABADO = 1.5;
-        const BONIFICACION = 0.5;
+        const BONIFICACION = 0;
         const HORAS_JORNADA = 8;
 
         // ===== REFERENCIAS =====
@@ -770,6 +810,10 @@
         const horasAcumuladasQuincena = document.getElementById('horasAcumuladasQuincena');
         const horasAcumuladasMostrar = document.getElementById('horasAcumuladasMostrar');
         const horasAAcumularResult = document.getElementById('horasAAcumularResult');
+
+        const totalHorasTrabajadasResult = document.getElementById('totalHorasTrabajadasResult');
+        const totalHorasEfectivasResult = document.getElementById('totalHorasEfectivasResult');
+        const horasOrdinariasResult = document.getElementById('horasOrdinariasResult');
 
         const haberBasicoResult = document.getElementById('haberBasicoResult');
         const asignacionResult = document.getElementById('asignacionResult');
@@ -790,7 +834,7 @@
         // ===== VARIABLES GLOBALES =====
         let mesActual = 6, anioActual = 2026, diasEnMes = 31, primerDiaSemana = 3, filtroActual = 'ambas';
 
-        // ===== FUNCIÓN GENERAR PERÍODO =====
+        // ===== FUNCIONES =====
         function generarOpcionesPeriodo() {
             const select = selectorPeriodo;
             select.innerHTML = '';
@@ -861,7 +905,57 @@
             return false;
         }
 
-        // ===== FUNCIONES DEL SISTEMA =====
+        // ===== FUNCIONES DE CÁLCULO =====
+
+        function calcularHorasEfectivas(horas, esSabado, esFeriado, esSemanaCerrada, esAcumula) {
+            if (esFeriado) return horas;
+            
+            let efectivas = horas;
+            
+            if (esSabado) {
+                if (esSemanaCerrada) {
+                    efectivas = horas;
+                } else {
+                    efectivas = horas - ALMUERZO;
+                }
+            } else {
+                efectivas = horas - ALMUERZO - SABADO;
+            }
+            
+            efectivas = Math.max(efectivas, 0);
+            
+            if (esSabado && !esSemanaCerrada && efectivas === 7.5) {
+                efectivas = 8;
+            }
+            
+            return efectivas;
+        }
+
+        function getHorasExtrasAcumuladas(horas, esAcumula, esSabado, esFeriado, esSemanaCerrada) {
+            if (!esAcumula || esFeriado) return 0;
+            
+            let efectivas = horas;
+            
+            if (esSabado) {
+                if (esSemanaCerrada) {
+                    efectivas = horas;
+                } else {
+                    efectivas = horas - ALMUERZO;
+                }
+            } else {
+                efectivas = horas - ALMUERZO - SABADO;
+            }
+            
+            efectivas = Math.max(efectivas, 0);
+            
+            if (esSabado && !esSemanaCerrada && efectivas === 7.5) {
+                efectivas = 8;
+            }
+            
+            let extras = Math.max(efectivas - HORAS_JORNADA, 0);
+            return extras;
+        }
+
         function aplicarFiltro(filtro) {
             filtroActual = filtro;
             [filtroAmbas, filtroPrimera, filtroSegunda].forEach(btn => btn.classList.remove('activo'));
@@ -875,50 +969,6 @@
                 else if (filtro === 'primera') dia <= 15 ? item.classList.remove('oculto') : item.classList.add('oculto');
                 else if (filtro === 'segunda') dia >= 16 ? item.classList.remove('oculto') : item.classList.add('oculto');
             });
-        }
-
-        function calcularHorasEfectivas(horas, esSabado, esFeriado, esSemanaCerrada, esAcumula) {
-            if (esFeriado) return horas;
-            
-            let efectivas = horas;
-            
-            if (esSabado) {
-                if (esSemanaCerrada) {
-                    efectivas = horas;
-                } else {
-                    efectivas = horas - ALMUERZO + BONIFICACION;
-                }
-            } else {
-                efectivas = horas - ALMUERZO - SABADO + BONIFICACION;
-            }
-            
-            efectivas = Math.max(efectivas, 0);
-            
-            if (esAcumula) {
-                let normales = Math.min(efectivas, HORAS_JORNADA);
-                return normales;
-            }
-            
-            return efectivas;
-        }
-
-        function getHorasExtrasAcumuladas(horas, esAcumula, esSabado, esFeriado, esSemanaCerrada) {
-            if (!esAcumula || esFeriado) return 0;
-            
-            let efectivas = horas;
-            if (esSabado) {
-                if (esSemanaCerrada) {
-                    efectivas = horas;
-                } else {
-                    efectivas = horas - ALMUERZO + BONIFICACION;
-                }
-            } else {
-                efectivas = horas - ALMUERZO - SABADO + BONIFICACION;
-            }
-            
-            efectivas = Math.max(efectivas, 0);
-            let extras = Math.max(efectivas - HORAS_JORNADA, 0);
-            return extras;
         }
 
         function actualizarHoraEfectiva(dia) {
@@ -1120,7 +1170,7 @@
             }, 50);
         }
 
-        // ===== CÁLCULO =====
+        // ===== CÁLCULO PRINCIPAL =====
         function calcular() {
             const salarioDia = parseFloat(salarioDiario.value) || 0;
             const asignacionFija = parseFloat(asignacionFamiliarTotal.value) || 0;
@@ -1135,12 +1185,18 @@
             let feriadosNacionalesTrabajados = 0;
             let feriadosArequipaTrabajados = 0;
             let horasAAcumular = 0;
+            
+            let totalHorasIngresadas = 0;
+            let totalHorasEfectivas = 0;
+            let horasOrdinarias = 0;
 
             for (let i = 1; i <= diasEnMes; i++) {
                 const input = document.getElementById(`hora_${i}`);
                 if (!input) continue;
                 let horas = parseFloat(input.value) || 0;
                 if (horas < 0) horas = 0;
+
+                totalHorasIngresadas += horas;
 
                 const esDom = esDomingo(i, mesActual, anioActual);
                 const esSab = esSabado(i, mesActual, anioActual);
@@ -1159,6 +1215,13 @@
                 }
 
                 let efectivas = calcularHorasEfectivas(horas, esSab, esFerNac || esFerAreq, esSemanaCerrada, esAcumula);
+                
+                totalHorasEfectivas += efectivas;
+                
+                // Calcular horas ordinarias (excluyendo domingos y feriados)
+                if (!esDom && !esFerNac && !esFerAreq) {
+                    horasOrdinarias += Math.min(efectivas, HORAS_JORNADA);
+                }
 
                 if (efectivas > 0 && !esDom) {
                     diasLaborados++;
@@ -1181,7 +1244,22 @@
                 }
             }
 
-            horasExtras35 += horasAcumuladas;
+            totalHorasTrabajadasResult.textContent = `${totalHorasIngresadas.toFixed(1)} hrs`;
+            totalHorasEfectivasResult.textContent = `${totalHorasEfectivas.toFixed(1)} hrs`;
+            horasOrdinariasResult.textContent = `${horasOrdinarias.toFixed(1)} hrs`;
+
+            let horasAcumuladasRestantes = horasAcumuladas;
+            
+            if (horasAcumuladasRestantes > 0) {
+                const horas25 = Math.min(horasAcumuladasRestantes, 2);
+                horasExtras25 += horas25;
+                horasAcumuladasRestantes -= horas25;
+            }
+            
+            if (horasAcumuladasRestantes > 0) {
+                horasExtras35 += horasAcumuladasRestantes;
+            }
+
             horasAAcumularResult.textContent = `${horasAAcumular.toFixed(1)} hrs`;
 
             const haberBasico = salarioDia * diasLaborados;
@@ -1239,7 +1317,7 @@
             salarioDiario.value = '85';
             asignacionFamiliarTotal.value = '56.50';
             tipoDescuento.value = 'onp';
-            horasAcumuladasQuincena.value = '0';
+            horasAcumuladasQuincena.value = '3';
             
             const horasEjemplo = {};
             for (let i = 1; i <= 13; i++) {
